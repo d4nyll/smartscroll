@@ -8,10 +8,15 @@
 	$.smartscroll = function(overrides) {
 		$.extend( options, overrides );
 
+		// Mouse Scroll
+
 		var scrolling = false;
 		var slideCount = $('.' + options.sectionClass).length;
 
-		var getCurrentSlideIndex = function () {
+		var getCurrentSlideIndex = function (floor) {
+			if(floor) {
+				return Math.floor(-($('.' + options.sectionClass)[0].getBoundingClientRect().top / $(window).height()));
+			}
 			return Math.round(-($('.' + options.sectionClass)[0].getBoundingClientRect().top / $(window).height()));
 		}
 
@@ -47,5 +52,20 @@
 			"overflow": "hidden",
 			"height": $(window).height()
 		});
+
+		// Hash
+		
+		var currentHash = window.location.hash;
+		
+		$(window).bind('scroll', function(e){
+			var newHash = $('.' + options.sectionClass + ':nth-of-type(' + (getCurrentSlideIndex(true) + 1) + ')').data('hash');
+			if(! (window.location.hash === newHash)) {
+				if(typeof newHash === 'undefined') {
+					window.location.hash = '';
+				} else {
+					window.location.hash = newHash;
+				}
+			}
+	    });
 	}
 }(jQuery));
