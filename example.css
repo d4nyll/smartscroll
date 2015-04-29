@@ -1,0 +1,19 @@
+/* line 2, ../sass/example.scss */
+.dummy:nth-child(2n) {
+  background-color: orange;
+}
+
+/* line 6, ../sass/example.scss */
+.dummy:nth-child(2n+1) {
+  background-color: bisque;
+}
+
+/* line 9, ../sass/example.scss */
+.section:nth-child(2n) {
+  background: salmon;
+}
+
+/* line 13, ../sass/example.scss */
+.section:nth-child(2n+1) {
+  background: steelblue;
+}
