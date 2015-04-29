@@ -53,6 +53,12 @@
 			"height": $(window).height()
 		});
 
+		$(window).bind('resize', function(e){
+			$('.' + options.sectionClass).css({
+				"height": $(window).height()
+			});
+	    });
+
 		// Hash
 		
 		var currentHash = window.location.hash;
