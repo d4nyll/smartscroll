@@ -3,7 +3,7 @@
 		sectionWrapperSelector: ".section-wrapper",
 		sectionClass: "section",
 		animationSpeed: 300,
-		headerText: "header"
+		headerHash: "header"
 	}
 	$.smartscroll = function(overrides) {
 		$.extend( options, overrides );
@@ -75,7 +75,7 @@
 			var newHash = $('.' + options.sectionClass + ':nth-of-type(' + (getCurrentSlideIndex(true) + 1) + ')').data('hash');
 			if(! (window.location.hash === newHash)) {
 				if(typeof newHash === 'undefined') {
-					window.location.hash = options.headerText;
+					window.location.hash = options.headerHash;
 				} else {
 					window.location.hash = newHash;
 				}
