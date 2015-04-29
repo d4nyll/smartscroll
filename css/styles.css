@@ -1,0 +1,25 @@
+/* line 1, ../sass/_smartscroll.scss */
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+/* line 2, ../sass/_dev.scss */
+.dummy:nth-child(2n) {
+  background-color: orange;
+}
+
+/* line 6, ../sass/_dev.scss */
+.dummy:nth-child(2n+1) {
+  background-color: bisque;
+}
+
+/* line 9, ../sass/_dev.scss */
+.section:nth-child(2n) {
+  background: salmon;
+}
+
+/* line 13, ../sass/_dev.scss */
+.section:nth-child(2n+1) {
+  background: steelblue;
+}

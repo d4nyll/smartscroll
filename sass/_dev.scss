@@ -1,0 +1,15 @@
+
+.dummy:nth-child(2n) {
+	background-color: orange;
+}
+
+.dummy:nth-child(2n+1) {
+	background-color: bisque;
+}
+.section:nth-child(2n) {
+    background: salmon;
+}
+
+.section:nth-child(2n+1) {
+    background: steelblue;
+}
