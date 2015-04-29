@@ -54,7 +54,14 @@
 	</div>
 	<script type="text/javascript" src="../smartscroll.js"></script>
 	<script>
-		$.smartscroll();
+		$.smartscroll({
+			autoHash: true,
+			sectionScroll: true,
+			sectionWrapperSelector: ".section-wrapper",
+			sectionClass: "section",
+			animationSpeed: 300,
+			headerHash: "header"
+		});
 	</script>
 </body>
 </html>
