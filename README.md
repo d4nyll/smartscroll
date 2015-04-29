@@ -61,4 +61,5 @@ Currently, there are two features of smartscroll, and this is how it's implement
 
 The following features may be implemented. Please register interest by opening an issue.
 
+* Touch support
 * Horizontal scrolling
