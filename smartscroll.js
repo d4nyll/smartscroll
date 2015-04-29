@@ -77,12 +77,11 @@
 		if(options.autoHash) {
 			$(window).bind('scroll', function(e){
 				var newHash = $('.' + options.sectionClass + ':nth-of-type(' + (getCurrentSlideIndex(true) + 1) + ')').data('hash');
-				if(! (window.location.hash === newHash)) {
-					if(typeof newHash === 'undefined') {
-						window.location.hash = options.headerHash;
-					} else {
-						window.location.hash = newHash;
-					}
+				if(typeof newHash === 'undefined') {
+					window.location.hash = newHash = options.headerHash;
+				}
+				if(! (window.location.hash === ('#' + newHash))) {
+					window.location.hash = newHash;
 				}
 		    });
 		}
