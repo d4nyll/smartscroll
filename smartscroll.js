@@ -1,9 +1,9 @@
 (function ($) {
 	var options = {
-		"pageWrapperSelector": ".page-wrapper",
-		"sectionWrapperSelector": ".section-wrapper",
-		"sectionClass": "section",
-		"animationSpeed": 300
+		sectionWrapperSelector: ".section-wrapper",
+		sectionClass: "section",
+		animationSpeed: 300,
+		headerText: "header"
 	}
 	$.smartscroll = function(overrides) {
 		$.extend( options, overrides );
@@ -14,17 +14,23 @@
 		var slideCount = $('.' + options.sectionClass).length;
 
 		var getCurrentSlideIndex = function (floor) {
-			if(floor) {
-				return Math.floor(-($('.' + options.sectionClass)[0].getBoundingClientRect().top / $(window).height()));
-			}
-			return Math.round(-($('.' + options.sectionClass)[0].getBoundingClientRect().top / $(window).height()));
+			var slidePosition = -($('.' + options.sectionClass)[0].getBoundingClientRect().top / $(window).height());
+			return floor ? Math.floor(slidePosition) : Math.round(slidePosition);
 		}
 
 		var scrollTo = function (slideIndex) {
 			scrolling = true;
+			var scrollTopVal = $(options.sectionWrapperSelector + ':first').position().top;
+			var scrollSpeed = 0;
+			if(slideIndex >= 0) {
+				scrollTopVal += ( (slideIndex) * $(window).height());
+				scrollSpeed = options.animationSpeed;
+			} else {
+				scrollTopVal -= 53;
+			}
 			$('body').animate({
-		        scrollTop: $(options.sectionWrapperSelector + ':first').position().top + ( (slideIndex) * $(window).height())
-		    }, options.animationSpeed, function() {
+		        scrollTop: scrollTopVal
+		    }, scrollSpeed, function() {
 		    	scrolling = false;
 		    });
 			return false;
@@ -40,6 +46,8 @@
 			if(!scrolling
 				&& window.document.body.scrollTop >= $(options.sectionWrapperSelector + ':first').position().top
 				) {
+				e.preventDefault()
+				e.stopPropagation();
 				if(e.originalEvent.wheelDelta > 0 || e.originalEvent.detail < 0) {
 		            scrollUp();
 		        }
@@ -67,7 +75,7 @@
 			var newHash = $('.' + options.sectionClass + ':nth-of-type(' + (getCurrentSlideIndex(true) + 1) + ')').data('hash');
 			if(! (window.location.hash === newHash)) {
 				if(typeof newHash === 'undefined') {
-					window.location.hash = '';
+					window.location.hash = options.headerText;
 				} else {
 					window.location.hash = newHash;
 				}
