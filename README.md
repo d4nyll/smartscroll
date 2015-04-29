@@ -50,12 +50,12 @@ Currently, there are two features of smartscroll, and this is how it's implement
 
 1. Smooth scroll by section
 
-  The [`mousewheel`](https://developer.mozilla.org/en-US/docs/Web/Events/mousewheel)  and [`DOMMouseScroll`](https://developer.mozilla.org/en-US/docs/Web/Events/DOMMouseScroll) (for Firefox) events are bound. When such event is detected, it will find it's most prominent section (one which occupies most of the screen), and smoothly scroll to the section above or below it.
+  The [`mousewheel`](https://developer.mozilla.org/en-US/docs/Web/Events/mousewheel)  and [`DOMMouseScroll`](https://developer.mozilla.org/en-US/docs/Web/Events/DOMMouseScroll) (for Firefox) events are bound. When such event is fired, smartscroll will find it's most prominent section (one which occupies most of the screen), and smoothly scroll to the section above or below it.
   When scrolling outside of the sections, normal scrolling resumes.
   
 2. Changing URL hash based on the current section
 
-  The URL hash changing works *independently* of the smooth scrolling
+  The `scroll` event is bound. When the event is fired, smartscroll will see which section occupies the top of the viewport, and if the hash is different, replace it with the new one.
 
 ### Future Development
 
