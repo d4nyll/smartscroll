@@ -70,7 +70,7 @@
 					scrollTopVal = $('.' + options.sectionClass + ':nth-of-type(' + (slideIndex + 1) + ')')[0].offsetTop;
 					scrollSpeed = options.animationSpeed;
 				}
-				$('body').animate({
+				$('body,html').stop(true,true).animate({
 			        scrollTop: scrollTopVal
 			    }, scrollSpeed, function() {
 			    	scrolling = false;
