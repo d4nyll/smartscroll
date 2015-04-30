@@ -1,5 +1,6 @@
 (function ($) {
 	var options = {
+		mode: "vp", // "vp", "set"
 		autoHash: true,
 		sectionScroll: true,
 		sectionWrapperSelector: ".section-wrapper",
@@ -10,37 +11,64 @@
 	$.smartscroll = function(overrides) {
 		$.extend( options, overrides );
 
-		// Section styles
-		$(window).bind('resize', function(e){
+		if (options.mode == "vp") {
 			$('.' + options.sectionClass).css({
 				"height": $(window).height()
 			});
-	    });
+			$(window).bind('resize', function(e){
+				$('.' + options.sectionClass).css({
+					"height": $(window).height()
+				});
+			});
+		}
 
 		$('.' + options.sectionClass).css({
-			"overflow": "hidden",
-			"height": $(window).height()
+			"overflow": "hidden"
 		});
 
+		var slideCount = $('.' + options.sectionClass).length;
 		var getCurrentSlideIndex = function (floor) {
-			var slidePosition = -($('.' + options.sectionClass)[0].getBoundingClientRect().top / $(window).height());
-			return floor ? Math.floor(slidePosition) : Math.round(slidePosition);
+			var slidePosition;
+			if(options.mode == "vp") {
+				slidePosition = -($('.' + options.sectionClass)[0].getBoundingClientRect().top / $(window).height());
+				return floor ? Math.floor(slidePosition) : Math.round(slidePosition);
+			} else {
+				slidePosition = -1;
+				var currentSlideRelPos;
+				var nextSlideRelPos;
+				var midLine = -($('.' + options.sectionClass)[0].getBoundingClientRect().top) + ($(window).height() / 2);
+				if(midLine < 0) {
+					return slidePosition;
+				}
+				for (var i = 0; i < slideCount; i++) {
+					slidePosition = i;
+					if(i < (slideCount - 1)) {
+						currentSlideRelPos = $('.' + options.sectionClass + ':nth-of-type(' + (i + 1) + ')')[0].offsetTop - $(options.sectionWrapperSelector + ':first').position().top;
+						nextSlideRelPos = $('.' + options.sectionClass + ':nth-of-type(' + (i + 2) + ')')[0].offsetTop - $(options.sectionWrapperSelector + ':first').position().top;
+						if(currentSlideRelPos <= midLine && midLine < nextSlideRelPos) {
+							break;
+						}
+					}
+				}
+				return slidePosition;
+			}
 		};
 		
 		// Mouse Scroll
 		if(options.sectionScroll) {
 			var scrolling = false;
-			var slideCount = $('.' + options.sectionClass).length;
-
 			var scrollTo = function (slideIndex) {
 				scrolling = true;
-				var scrollTopVal = $(options.sectionWrapperSelector + ':first').position().top;
+				var scrollTopVal;
 				var scrollSpeed = 0;
-				if(slideIndex >= 0) {
-					scrollTopVal += ( (slideIndex) * $(window).height());
-					scrollSpeed = options.animationSpeed;
+				if (slideIndex < 0) {
+					scrollTopVal = $(options.sectionWrapperSelector + ':first').position().top - 53;
+				} else if(slideIndex >= slideCount) {
+					scrolling = false;
+					return false;
 				} else {
-					scrollTopVal -= 53;
+					scrollTopVal = $('.' + options.sectionClass + ':nth-of-type(' + (slideIndex + 1) + ')')[0].offsetTop;
+					scrollSpeed = options.animationSpeed;
 				}
 				$('body').animate({
 			        scrollTop: scrollTopVal

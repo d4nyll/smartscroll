@@ -9,8 +9,7 @@ smartscroll is a tiny (1.3k minfied) jQuery plugin that has these *independent* 
 
 ### Requirements
 
-1. **All sections must be 100% height and width in relation to the viewport**
-2. **There can only be one set of adjoining sections**
+1. **There can only be one set of adjoining sections**
 
 ### How to Use
 
@@ -24,6 +23,7 @@ Structure your HTML like so (default options included)
     <script src="path/to/smartscroll.js">
     <script>
       var options = {
+        mode: "vp", // "vp", "set"
         autoHash: true,
         sectionScroll: true,
         sectionWrapperSelector: ".section-wrapper",
@@ -39,6 +39,9 @@ Structure your HTML like so (default options included)
 
 ##### Options
 
+* `mode` - (String) Valid options are:
+  * `vp` (Viewport) - The sections will be automatically sized to be the same as the viewport
+  * `set` - Use the height and width set by CSS
 * `autoHash` - (Boolean) Whether the auto-hashing feature is enabled
 * `sectionScroll` - (Boolean) Whether the section-scrolling feature is enabled
 * `sectionWrapperSelector` - (String) The CSS selector for the block element which wraps around your sections
@@ -52,12 +55,21 @@ Currently, there are two features of smartscroll, and this is how it's implement
 
 1. Smooth scroll by section
 
-  The [`mousewheel`](https://developer.mozilla.org/en-US/docs/Web/Events/mousewheel)  and [`DOMMouseScroll`](https://developer.mozilla.org/en-US/docs/Web/Events/DOMMouseScroll) (for Firefox) events are bound. When such event is fired, smartscroll will find it's most prominent section (one which occupies most of the screen), and smoothly scroll to the section above or below it.
+  The [`mousewheel`](https://developer.mozilla.org/en-US/docs/Web/Events/mousewheel)  and [`DOMMouseScroll`](https://developer.mozilla.org/en-US/docs/Web/Events/DOMMouseScroll) (for Firefox) events are bound.
+
+  When such event is fired in `vp` mode, smartscroll will find it's most prominent section (one which occupies most of the screen), and smoothly scroll to the section above or below it.
+
+  When the event is fired in `set` mode, smartscroll will find which section occupies the middle of the screen, and smoothly scroll to the section above or below it.
+
   When scrolling outside of the sections, normal scrolling resumes.
   
 2. Changing URL hash based on the current section
 
-  The `scroll` event is bound. When the event is fired, smartscroll will see which section occupies the top of the viewport, and if the hash is different, replace it with the new one.
+  The `scroll` event is bound.
+
+  When the event is fired in `vp` mode, smartscroll will see which section occupies the *top* of the viewport, and if the hash is different, replace it with the new one.
+
+  When the event is fired in `set` mode, smartscroll will see which section occupies the *middle* of the viewport, and if the hash is different, replace it with the new one.
 
 ### Future Development
 
