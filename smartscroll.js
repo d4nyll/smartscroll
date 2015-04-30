@@ -85,7 +85,7 @@
 			};
 			$(window).bind('mousewheel DOMMouseScroll', function(e){
 				if(!scrolling
-					&& window.document.body.scrollTop >= $(options.sectionWrapperSelector + ':first').position().top
+					&& Math.max(window.document.body.scrollTop, document.documentElement.scrollTop) >= $(options.sectionWrapperSelector + ':first').position().top
 					) {
 					e.preventDefault()
 					e.stopPropagation();
