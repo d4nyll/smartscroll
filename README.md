@@ -41,7 +41,7 @@ Structure your HTML like so (default options included)
 
 * `mode` - (String) Valid options are:
   * `vp` (Viewport) - The sections will be automatically sized to be the same as the viewport
-  * `set` - Use the height and width set by CSS
+  * `set` - Use the height and width set by CSS (use this for having different heights for different sections)
 * `autoHash` - (Boolean) Whether the auto-hashing feature is enabled
 * `sectionScroll` - (Boolean) Whether the section-scrolling feature is enabled
 * `sectionWrapperSelector` - (String) The CSS selector for the block element which wraps around your sections
@@ -73,7 +73,8 @@ Currently, there are two features of smartscroll, and this is how it's implement
 
 ### Future Development
 
-The following features may be implemented. Please register interest by opening an issue.
+The following features may be implemented. Please register interest by opening/commenting on an issue.
 
 * Touch support
 * Horizontal scrolling
+* Disable permalink history
