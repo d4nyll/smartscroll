@@ -1,19 +1,58 @@
-/* line 2, ../sass/example.scss */
-.dummy:nth-child(2n) {
-  background-color: orange;
+/* line 1, ../sass/example.scss */
+.header, .section {
+  display: table;
+  width: 100%;
+  text-align: center;
+}
+/* line 5, ../sass/example.scss */
+.header > div, .section > div {
+  display: table-cell;
+  vertical-align: middle;
 }
 
-/* line 6, ../sass/example.scss */
-.dummy:nth-child(2n+1) {
-  background-color: bisque;
+/* line 11, ../sass/example.scss */
+html, body {
+  font-family: Montserrat,sans-serif;
 }
 
-/* line 9, ../sass/example.scss */
-.section:nth-child(2n) {
-  background: salmon;
+/* line 15, ../sass/example.scss */
+a {
+  color: inherit;
+  text-decoration: underline;
+  font-weight: 700;
 }
 
-/* line 13, ../sass/example.scss */
-.section:nth-child(2n+1) {
-  background: steelblue;
+/* line 21, ../sass/example.scss */
+.header {
+  height: 700px;
+}
+
+/* line 30, ../sass/example.scss */
+.section:nth-child(5n+1) {
+  height: 1000px;
+  background-color: #FF708F;
+}
+
+/* line 35, ../sass/example.scss */
+.section:nth-child(5n+2) {
+  height: 2000px;
+  background-color: #E89D5D;
+}
+
+/* line 40, ../sass/example.scss */
+.section:nth-child(5n+3) {
+  height: 500px;
+  background-color: #FFE33E;
+}
+
+/* line 45, ../sass/example.scss */
+.section:nth-child(5n+4) {
+  height: 700px;
+  background-color: #7AE856;
+}
+
+/* line 50, ../sass/example.scss */
+.section:nth-child(5n) {
+  height: 1500px;
+  background-color: #7AFFE6;
 }

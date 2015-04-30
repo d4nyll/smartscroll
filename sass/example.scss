@@ -1,15 +1,53 @@
-
-.dummy:nth-child(2n) {
-	background-color: orange;
+%center-middle {
+	display: table;
+	width: 100%;
+	text-align: center;
+	> div {
+		display: table-cell;
+		vertical-align: middle;
+	}
 }
 
-.dummy:nth-child(2n+1) {
-	background-color: bisque;
-}
-.section:nth-child(2n) {
-    background: salmon;
+html, body {
+	font-family: Montserrat,sans-serif;
 }
 
-.section:nth-child(2n+1) {
-    background: steelblue;
+a {
+	color: inherit;
+	text-decoration: underline;
+	font-weight: 700;
+}
+
+.header {
+	@extend %center-middle;
+	height: 700px;
+}
+
+.section {
+	@extend %center-middle;
+}
+
+.section:nth-child(5n+1) {
+	height: 1000px;
+	background-color: #FF708F;
+}
+
+.section:nth-child(5n+2) {
+	height: 2000px;
+	background-color: #E89D5D;
+}
+
+.section:nth-child(5n+3) {
+	height: 500px;
+	background-color: #FFE33E;
+}
+
+.section:nth-child(5n+4) {
+	height: 700px;
+	background-color: #7AE856;
+}
+
+.section:nth-child(5n) {
+	height: 1500px;
+	background-color: #7AFFE6;
 }

@@ -1,61 +1,56 @@
 <!doctype html>
 <html>
 <head>
+	<link href="http://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
 	<link rel="stylesheet" href="../css/smartscroll.css">
 	<link rel="stylesheet" href="../css/example.css">
 	<script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
 </head>
 <body>
-	<div class="dummy">aiodjas89djsad</div>
-	<div class="dummy">aiodjas89djsad</div>
-	<div class="dummy">aiodjas89djsad</div>
-	<div class="dummy">aiodjas89djsad</div>
-	<div class="dummy">aiodjas89djsad</div>
-	<div class="dummy">aiodjas89djsad</div>
-	<div class="dummy">aiodjas89djsad</div>
-	<div class="dummy">aiodjas89djsad</div>
-	<div class="dummy">aiodjas89djsad</div>
-	<div class="dummy">aiodjas89djsad</div>
-	<div class="dummy">aiodjas89djsad</div>
-	<div class="dummy">aiodjas89djsad</div>
-	<div class="dummy">aiodjas89djsad</div>
-	<div class="dummy">aiodjas89djsad</div>
-	<div class="dummy">aiodjas89djsad</div>
-	<div class="dummy">aiodjas89djsad</div>
-	<div class="dummy">aiodjas89djsad</div>
-	<div class="dummy">aiodjas89djsad</div>
-	<div class="dummy">aiodjas89djsad</div>
-	<div class="dummy">aiodjas89djsad</div>
-	<div class="dummy">aiodjas89djsad</div>
-	<div class="dummy">aiodjas89djsad</div>
-	<div class="dummy">aiodjas89djsad</div>
-	<div class="dummy">aiodjas89djsad</div>
-	<div class="dummy">aiodjas89djsad</div>
+	<div class="header">
+		<div>
+			<h1>smartscroll</h1>
+			<p>Tiny (763b minfied + gzipped) jQuery plugin for scrolljacking and auto-hashing</p>
+			<p>See it on <a href="https://github.com/d4nyll/smartscroll" target="_blank">GitHub</a></p>
+			<p>This section is not part of the sections, and so normal scrolling here!</p>
+		</div>
+	</div>
 	<div class="section-wrapper">
 		<div class="section" data-hash="section-1">
-			<h1>Section 1</h1>
-			<p>Paragraph 1</p>
+			<div>
+				<h1>Section 1</h1>
+				<p>Paragraph 1</p>
+			</div>
 		</div>
 		<div class="section" data-hash="section-2">
-			<h1>Section 2</h1>
-			<p>Paragraph 2</p>
+			<div>
+				<h1>Section 2</h1>
+				<p>Paragraph 2</p>
+			</div>
 		</div>
 		<div class="section" data-hash="section-3">
-			<h1>Section 3</h1>
-			<p>Paragraph 3</p>
+			<div>
+				<h1>Section 3</h1>
+				<p>Paragraph 3</p>
+			</div>
 		</div>
 		<div class="section" data-hash="section-4">
-			<h1>Section 4</h1>
-			<p>Paragraph 4</p>
+			<div>
+				<h1>Section 4</h1>
+				<p>Paragraph 4</p>
+			</div>
 		</div>
 		<div class="section" data-hash="section-5">
-			<h1>Section 5</h1>
-			<p>Paragraph 5</p>
+			<div>
+				<h1>Section 5</h1>
+				<p>Paragraph 5</p>
+			</div>
 		</div>
 	</div>
 	<script type="text/javascript" src="../smartscroll.js"></script>
 	<script>
 		$.smartscroll({
+			mode: "vp",
 			autoHash: true,
 			sectionScroll: true,
 			sectionWrapperSelector: ".section-wrapper",
