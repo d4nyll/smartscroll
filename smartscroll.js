@@ -3,6 +3,7 @@
 		mode: "vp", // "vp", "set"
 		autoHash: true,
 		sectionScroll: true,
+		initialScroll: true,
 		sectionWrapperSelector: ".section-wrapper",
 		sectionClass: "section",
 		animationSpeed: 300,
@@ -53,6 +54,14 @@
 				return slidePosition;
 			}
 		};
+
+		var scrollToPixel = function (pixel, speed) {
+			$('body,html').stop(true,true).animate({
+				scrollTop: pixel
+			}, speed, function() {
+				scrolling = false;
+			});
+		}
 		
 		// Mouse Scroll
 		if(options.sectionScroll) {
@@ -70,11 +79,7 @@
 					scrollTopVal = $('.' + options.sectionClass + ':nth-of-type(' + (slideIndex + 1) + ')')[0].offsetTop;
 					scrollSpeed = options.animationSpeed;
 				}
-				$('body,html').stop(true,true).animate({
-			        scrollTop: scrollTopVal
-			    }, scrollSpeed, function() {
-			    	scrolling = false;
-			    });
+				scrollToPixel(scrollTopVal, scrollSpeed);
 				return false;
 			};
 			var scrollUp = function () {
@@ -112,6 +117,14 @@
 					window.location.hash = newHash;
 				}
 		    });
+		}
+
+		// Scroll to hash
+		if(options.initialScroll && currentHash.length > 0) {
+			var matchedObject = $('[data-hash="' + currentHash.substr(1) + '"]');
+			if(matchedObject.length > 0) {
+				scrollToPixel(matchedObject[0].offsetTop, 0);
+			}
 		}
 	}
 }(jQuery));
