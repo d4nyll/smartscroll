@@ -84,4 +84,3 @@ The following features may be implemented. Please register interest by opening/c
 
 * Touch support
 * Horizontal scrolling
-* Disable permalink history
