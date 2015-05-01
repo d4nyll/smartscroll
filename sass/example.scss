@@ -18,6 +18,10 @@ a {
 	font-weight: 700;
 }
 
+li {
+	list-style: none;
+}
+
 .header {
 	@extend %center-middle;
 	height: 700px;
@@ -27,27 +31,32 @@ a {
 	@extend %center-middle;
 }
 
-.section:nth-child(5n+1) {
-	height: 1000px;
+.section:nth-child(6n+1) {
+	height: 700px;
 	background-color: #FF708F;
 }
 
-.section:nth-child(5n+2) {
-	height: 2000px;
+.section:nth-child(6n+2) {
+	height: 1000px;
 	background-color: #E89D5D;
 }
 
-.section:nth-child(5n+3) {
+.section:nth-child(6n+3) {
 	height: 500px;
 	background-color: #FFE33E;
 }
 
-.section:nth-child(5n+4) {
-	height: 700px;
+.section:nth-child(6n+4) {
+	height: 900px;
 	background-color: #7AE856;
 }
 
-.section:nth-child(5n) {
+.section:nth-child(6n+5) {
 	height: 1500px;
 	background-color: #7AFFE6;
+}
+
+.section:nth-child(6n) {
+	height: 400px;
+	background-color: #6E74F5;
 }

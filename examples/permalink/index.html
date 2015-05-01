@@ -1,0 +1,48 @@
+<!doctype html>
+<html>
+<head>
+	<link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+	<link rel="stylesheet" href="../../css/smartscroll.css">
+	<link rel="stylesheet" href="../../css/example.css">
+	<script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+</head>
+<body>
+	<div class="section-wrapper">
+		<div class="section" data-hash="a">
+			<div>
+				<h1>smartscroll - Permalink</h1>
+				<p>A tiny (919b minfied + gzipped) jQuery plugin for scrolljacking and auto-hashing</p>
+				<p>See it on <a href="https://github.com/d4nyll/smartscroll" target="_blank">GitHub</a>, or see some <a href="http://blog.danyll.com/smartscroll-jquery-scrolljacking-plugin/" target="_blank">comparisons</a></p>
+				<p>Try out other examples!</p>
+				<ul>
+					<li><a href="http://d4nyll.github.io/smartscroll/">Standard</a></li>
+					<li><a href="http://d4nyll.github.io/smartscroll/permalink/#section-3">Permalink</a></li>
+					<li><a href="http://d4nyll.github.io/smartscroll/different-heights/">Different Heights</a></li>
+					<li><a href="http://d4nyll.github.io/smartscroll/hybrid-scroll/">Hybrid Scroll</a></li>
+					<li><a href="http://d4nyll.github.io/smartscroll/auto-hash/">Auto-Hash</a></li>
+					<li><a href="http://d4nyll.github.io/smartscroll/keep-history/">Keep History</a></li>
+				</ul>
+			</div>
+		</div>
+		<div class="section" data-hash="b">
+			<div>
+				<p>If you bookmark this page and come back to it, it will land you back at the correct position on the page</p>
+			</div>
+		</div>
+		<div class="section" data-hash="c">
+			<div>
+				<p>smartscroll have this enabled by default.</p>
+			</div>
+		</div>
+		<div class="section" data-hash="d">
+			<div>
+				<p>You can turn it off by passing in the option <code>initialScroll: false</code>.</p>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript" src="../../smartscroll.js"></script>
+	<script>
+		$.smartscroll({});
+	</script>
+</body>
+</html>
