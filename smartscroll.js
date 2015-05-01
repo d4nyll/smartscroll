@@ -4,6 +4,7 @@
 		autoHash: true,
 		sectionScroll: true,
 		initialScroll: true,
+		keepHistory: false,
 		sectionWrapperSelector: ".section-wrapper",
 		sectionClass: "section",
 		animationSpeed: 300,
@@ -110,16 +111,21 @@
 		if(options.autoHash) {
 			$(window).bind('scroll', function(e){
 				var newHash = $('.' + options.sectionClass + ':nth-of-type(' + (getCurrentSlideIndex(true) + 1) + ')').data('hash');
-				if(typeof newHash === 'undefined') {
-					window.location.hash = newHash = options.headerHash;
-				}
-				if(! (window.location.hash === ('#' + newHash))) {
-					window.location.hash = newHash;
+				if(typeof newHash === 'undefined' || !(window.location.hash === ('#' + newHash))) {
+					if(typeof newHash === 'undefined') {
+						newHash = options.headerHash;	
+					}
+					if(!options.keepHistory) {
+						window.location.replace(window.location.href.split('#')[0] + '#' + newHash);
+					} else {
+						window.location.hash = newHash;
+					}
 				}
 		    });
 		}
 
 		// Scroll to hash
+		
 		if(options.initialScroll && currentHash.length > 0) {
 			var matchedObject = $('[data-hash="' + currentHash.substr(1) + '"]');
 			if(matchedObject.length > 0) {

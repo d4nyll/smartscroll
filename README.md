@@ -1,6 +1,6 @@
 # smartscroll
 
-smartscroll is a tiny (864b minfied + gzipped) jQuery plugin that has these *independent* features:
+smartscroll is a tiny (909b minfied + gzipped) jQuery plugin that has these *independent* features:
 
 1. Section scrolling - Scrolljacking
 2. Auto-hash - Updates the URL hash based on current position on page
@@ -10,6 +10,7 @@ It also supports:
 1. Varied Section Heights
 2. Hybrid Scrolling - Both normal and scrolljacking on the same page
 3. Compatible with scrollbar - Can use scrollbar as well as mousewheel
+4. Disabling permalink history
 
 ### [Demo](//d4nyll.github.io/smartscroll/)
 
