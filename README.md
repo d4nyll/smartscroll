@@ -33,6 +33,8 @@ Structure your HTML like so (default options included)
         mode: "vp", // "vp", "set"
         autoHash: true,
         sectionScroll: true,
+        initialScroll: true,
+        keepHistory: false,
         sectionWrapperSelector: ".section-wrapper",
         sectionClass: "section",
         animationSpeed: 300,
@@ -51,6 +53,8 @@ Structure your HTML like so (default options included)
   * `set` - Use the height and width set by CSS (use this for having different heights for different sections)
 * `autoHash` - (Boolean) Whether the auto-hashing feature is enabled
 * `sectionScroll` - (Boolean) Whether the section-scrolling feature is enabled
+* `initialScroll` - (Boolean) Whether smartscroll should scroll to the position specified by the hash on initial load
+* `keepHistory` - (Boolean) Whether scrolling through different sections will be recorded in the browser's history
 * `sectionWrapperSelector` - (String) The CSS selector for the block element which wraps around your sections
 * `sectionClass` - (String) The class name applied to each section
 * `animationSpeed` - (Integer) Time taken for the scroll animation, in miliseconds
