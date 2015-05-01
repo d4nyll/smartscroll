@@ -3,66 +3,73 @@
   display: table;
   width: 100%;
   text-align: center;
+  padding: 15%;
+  box-sizing: border-box;
 }
-/* line 5, ../sass/example.scss */
+/* line 7, ../sass/example.scss */
 .header > div, .section > div {
   display: table-cell;
   vertical-align: middle;
 }
 
-/* line 11, ../sass/example.scss */
+/* line 13, ../sass/example.scss */
 html, body {
   font-family: Montserrat,sans-serif;
 }
 
-/* line 15, ../sass/example.scss */
+/* line 17, ../sass/example.scss */
 a {
   color: inherit;
   text-decoration: underline;
   font-weight: 700;
 }
 
-/* line 21, ../sass/example.scss */
+/* line 23, ../sass/example.scss */
+ul {
+  padding-left: 0;
+}
+
+/* line 27, ../sass/example.scss */
 li {
   list-style: none;
 }
 
-/* line 25, ../sass/example.scss */
+/* line 31, ../sass/example.scss */
 .header {
   height: 700px;
 }
 
-/* line 34, ../sass/example.scss */
+/* line 40, ../sass/example.scss */
 .section:nth-child(6n+1) {
   height: 700px;
   background-color: #FF708F;
 }
 
-/* line 39, ../sass/example.scss */
+/* line 45, ../sass/example.scss */
 .section:nth-child(6n+2) {
   height: 1000px;
   background-color: #E89D5D;
 }
 
-/* line 44, ../sass/example.scss */
+/* line 50, ../sass/example.scss */
 .section:nth-child(6n+3) {
   height: 500px;
   background-color: #FFE33E;
 }
 
-/* line 49, ../sass/example.scss */
+/* line 55, ../sass/example.scss */
 .section:nth-child(6n+4) {
   height: 900px;
   background-color: #7AE856;
 }
 
-/* line 54, ../sass/example.scss */
+/* line 60, ../sass/example.scss */
 .section:nth-child(6n+5) {
   height: 1500px;
   background-color: #7AFFE6;
 }
 
-/* line 59, ../sass/example.scss */
+/* line 65, ../sass/example.scss */
 .section:nth-child(6n) {
   height: 400px;
   background-color: #6E74F5;

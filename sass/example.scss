@@ -2,6 +2,8 @@
 	display: table;
 	width: 100%;
 	text-align: center;
+	padding: 15%;
+	box-sizing: border-box;
 	> div {
 		display: table-cell;
 		vertical-align: middle;
@@ -16,6 +18,10 @@ a {
 	color: inherit;
 	text-decoration: underline;
 	font-weight: 700;
+}
+
+ul {
+	padding-left: 0;
 }
 
 li {
