@@ -90,19 +90,20 @@
 				scrollTo(getCurrentSlideIndex() + 1);
 			};
 			$(window).bind('mousewheel DOMMouseScroll', function(e){
-				if(!scrolling
-					&& Math.max(window.document.body.scrollTop, document.documentElement.scrollTop) >= $(options.sectionWrapperSelector + ':first').position().top
-					) {
-					e.preventDefault()
-					e.stopPropagation();
-					if(e.originalEvent.wheelDelta > 0 || e.originalEvent.detail < 0) {
-			            scrollUp();
-			        }
-			        else {
-			        	scrollDown();
-			        }
+				if(Math.max(window.document.body.scrollTop, document.documentElement.scrollTop) >= $(options.sectionWrapperSelector + ':first').position().top) {
+					if(!scrolling) {
+						e.preventDefault()
+						e.stopPropagation();
+						if(e.originalEvent.wheelDelta > 0 || e.originalEvent.detail < 0) {
+				            scrollUp();
+				        }
+				        else {
+				        	scrollDown();
+				        }
+					}
+					return false;
 				}
-				return false;
+				
 		    });
 		}
 		
