@@ -1,0 +1,45 @@
+<!doctype html>
+<html>
+<head>
+	<link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+	<link rel="stylesheet" href="../smartscroll.css">
+	<link rel="stylesheet" href="../example.min.css">
+	<script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+</head>
+<body>
+	<div class="section-wrapper">
+		<div class="section" data-hash="a">
+			<div>
+				<h1>smartscroll - Keep History</h1>
+				<p>A tiny (919b minfied + gzipped) jQuery plugin for scrolljacking and auto-hashing</p>
+				<p>See it on <a href="https://github.com/d4nyll/smartscroll" target="_blank">GitHub</a>, or see some <a href="http://blog.danyll.com/smartscroll-jquery-scrolljacking-plugin/" target="_blank">comparisons</a></p>
+				<p>Try out other examples!</p>
+				<ul>
+					<li><a href="http://d4nyll.github.io/smartscroll/">Standard</a></li>
+					<li><a href="http://d4nyll.github.io/smartscroll/permalink/#section-3">Permalink</a></li>
+					<li><a href="http://d4nyll.github.io/smartscroll/different-heights/">Different Heights</a></li>
+					<li><a href="http://d4nyll.github.io/smartscroll/hybrid-scroll/">Hybrid Scroll</a></li>
+					<li><a href="http://d4nyll.github.io/smartscroll/auto-hash/">Auto-Hash</a></li>
+					<li><a href="http://d4nyll.github.io/smartscroll/keep-history/">Keep History</a></li>
+				</ul>
+			</div>
+		</div>
+		<div class="section" data-hash="b">
+			<div>
+				<p>By default, smartscroll don't store your scrolling history into your browser history.<br>But you can enable it by passing in the <code>keepHistory: true</code> option.</p>
+			</div>
+		</div>
+		<div class="section" data-hash="c">
+			<div>
+				<p>As you scroll down, check your browser history, it'll be recorded.</p>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript" src="../smartscroll.min.js"></script>
+	<script>
+		$.smartscroll({
+			keepHistory: true
+		});
+	</script>
+</body>
+</html>
