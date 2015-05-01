@@ -18,6 +18,18 @@ It also supports:
 
 1. **There can only be one set of adjoining sections**
 
+### Install
+
+You can simply download the `smartscroll.min.js` file, or use a package manager.
+
+**npm**
+
+    npm install smartscroll
+
+**bower**
+
+    bower install smartscroll
+
 ### How to Use
 
 Structure your HTML like so (default options included)
@@ -44,7 +56,7 @@ Structure your HTML like so (default options included)
     </script>
     </body>
 
-> You may also want to link to `styles.css`, but all that does is to ensure the `html` and `body` elements have no margins nor padding
+> You may also want to link to `smartscroll.css`, but all that does is to ensure the `html` and `body` elements have no margins nor padding
 
 ##### Options
 
