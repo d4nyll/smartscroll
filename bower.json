@@ -1,0 +1,31 @@
+{
+  "name": "smartscroll",
+  "main": [
+    "smartscroll.js",
+    "sass/smartscroll.scss"
+  ],
+  "version": "1.0.0",
+  "homepage": "https://github.com/d4nyll/smartscroll",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:d4nyll/smartscroll.git"
+  },
+  "authors": [
+    "Daniel Li <dan@danyll.com>"
+  ],
+  "description": "Scrolljacking jQuery plugin",
+  "keywords": [
+    "scrolljacking",
+    "hash",
+    "scroll",
+    "jQuery"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
