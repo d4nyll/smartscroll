@@ -1,9 +1,10 @@
 # smartscroll
 
-smartscroll is a tiny (919b minfied + gzipped) jQuery plugin that has these *independent* features:
+smartscroll is a tiny (1050b minfied + gzipped) jQuery plugin that has these *independent* features:
 
 1. Section scrolling - Scrolljacking
 2. Auto-hash - Updates the URL hash based on current position on page
+2. Responsive - You can disable scrolljacking below a set breakpoint
 
 It also supports:
 
@@ -38,7 +39,8 @@ Structure your HTML like so (default options included)
         sectionWrapperSelector: ".section-wrapper",
         sectionClass: "section",
         animationSpeed: 300,
-        headerHash: "header"
+        headerHash: "header",
+        breakpoint: null
       };
       $.smartscroll(options);
     </script>
@@ -58,7 +60,8 @@ Structure your HTML like so (default options included)
 * `sectionWrapperSelector` - (String) The CSS selector for the block element which wraps around your sections
 * `sectionClass` - (String) The class name applied to each section
 * `animationSpeed` - (Integer) Time taken for the scroll animation, in miliseconds
-* `headerHash` - (String) the hash for the section above the sections, must be non-empty to reliably ensure the page do not jump when updating the hash value across browsers (as `#` means `_top`)
+* `headerHash` - (String) The hash for the section above the sections, must be non-empty to reliably ensure the page do not jump when updating the hash value across browsers (as `#` means `_top`)
+* `breakpoint` - (Integer) The width of the browser below which scrolljacking will be disabled
 
 ### Architecture
 
