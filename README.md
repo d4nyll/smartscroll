@@ -17,6 +17,7 @@ It also supports:
 ### Requirements
 
 1. **There can only be one set of adjoining sections**
+2. The [**Lethargy**](https://github.com/d4nyll/lethargy) is used to fix problems regarding inertial scroll. It is available as a Bower package, so for now, for v2.0.0, you must use Bower to install smartscroll. Otherwise, you must munually include the lethargy package and ensure it is loaded before smartscroll.
 
 ### Install
 
