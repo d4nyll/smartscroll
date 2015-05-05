@@ -83,7 +83,7 @@
 					} else {
 						if(this.belowBreakpoint) {
 							bindScroll();
-							this.belowBreakpoint = true;
+							this.belowBreakpoint = false;
 						}
 					}
 				});
