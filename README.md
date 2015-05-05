@@ -1,5 +1,7 @@
 # smartscroll
 
+> Please use [v1.0.0](https://github.com/d4nyll/smartscroll/tree/1.0.0) for now!
+
 smartscroll is a tiny (919b minfied + gzipped) jQuery plugin that has these *independent* features:
 
 1. Section scrolling - Scrolljacking
