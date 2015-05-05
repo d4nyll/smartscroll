@@ -1,0 +1,86 @@
+<!doctype html>
+<html>
+<head>
+	<meta name=viewport content="width=device-width, initial-scale=1">
+	<link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+	<link rel="stylesheet" href="../../css/smartscroll.css">
+	<link rel="stylesheet" href="../../css/example.css">
+	<script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+</head>
+<body>
+	<div class="header">
+		<div>
+			<h1>smartscroll</h1>
+			<p>A tiny (919b minfied + gzipped) jQuery plugin for scrolljacking and auto-hashing</p>
+			<p>See it on <a href="https://github.com/d4nyll/smartscroll" target="_blank">GitHub</a>, or see some <a href="http://blog.danyll.com/smartscroll-jquery-scrolljacking-plugin/" target="_blank">comparisons</a></p>
+			<p>Try out other examples!</p>
+			<ul>
+				<li><a href="http://d4nyll.github.io/smartscroll/">Standard</a></li>
+				<li><a href="http://d4nyll.github.io/smartscroll/permalink/#c">Permalink</a></li>
+				<li><a href="http://d4nyll.github.io/smartscroll/different-heights/">Different Heights</a></li>
+				<li><a href="http://d4nyll.github.io/smartscroll/hybrid-scroll/">Hybrid Scroll</a></li>
+				<li><a href="http://d4nyll.github.io/smartscroll/auto-hash/">Auto-Hash</a></li>
+				<li><a href="http://d4nyll.github.io/smartscroll/keep-history/">Keep History</a></li>
+			</ul>
+		</div>
+	</div>
+	<div class="header">
+		<div>
+			<p>This section is not inside the section wrapper, so normal scrolling here!</p>
+		</div>
+	</div>
+	<div class="section-wrapper">
+		<div class="section" data-hash="scrollbar">
+			<div>
+				<h1>Compatible with scrollbar</h1>
+				<p>Try scrolling with the mouse wheel as well as the scrollbar, it works as you expect!</p>
+			</div>
+		</div>
+		<div class="section" data-hash="permalinks">
+			<div>
+				<h1>Permalink</h1>
+				<p>You can bookmark a particular section, and it will stay there when you return!</p>
+				<a href="http://d4nyll.github.io/smartscroll/permalink/#c">Demo</a>
+			</div>
+		</div>
+		<div class="section" data-hash="different-heights">
+			<div>
+				<h1>Different Heights</h1>
+				<p>Normally, your sections will have to be 100% of the viewport (like it is now) for it to work. With smartscroll, the section can all be of different heights!</p>
+				<a href="http://d4nyll.github.io/smartscroll/different-heights/">Demo</a>
+			</div>
+		</div>
+		<div class="section" data-hash="hybrid-scroll">
+			<div>
+				<h1>Hybrid Scroll</h1>
+				<p>You can scroll normally in the white areas above, and also by sections in these coloured areas!</p>
+				<a href="http://d4nyll.github.io/smartscroll/hybrid-scroll/">Demo</a>
+			</div>
+		</div>
+		<div class="section" data-hash="auto-hash">
+			<div>
+				<h1>Auto-Hash</h1>
+				<p>Noticed when you scrolled down, the URL's hash changes automatically? That's the auto-hash feature! You can enable it just by itself!</p>
+				<a href="http://d4nyll.github.io/smartscroll/auto-hash/">Demo</a>
+			</div>
+		</div>
+		<div class="section" data-hash="keep-history">
+			<div>
+				<h1>Keep History</h1>
+				<p>By default, scrolling through different sections does not add to your history, but if you like that feature, you can turn it on too!</p>
+				<a href="http://d4nyll.github.io/smartscroll/keep-history/">Demo</a>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript" src="../../bower_components/lethargy/lethargy.js"></script>
+	<script type="text/javascript" src="../../smartscroll.js"></script>
+	<script>
+		$.smartscroll({
+			sectionWrapperSelector: ".section-wrapper",
+			sectionClass: "section",
+			headerHash: "welcome",
+			breakpoint: 780
+		});
+	</script>
+</body>
+</html>
