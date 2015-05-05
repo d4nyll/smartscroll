@@ -1,7 +1,5 @@
 # smartscroll
 
-> Please use [v1.0.0](https://github.com/d4nyll/smartscroll/tree/1.0.0) for now!
-
 smartscroll is a tiny (919b minfied + gzipped) jQuery plugin that has these *independent* features:
 
 1. Section scrolling - Scrolljacking
@@ -19,19 +17,6 @@ It also supports:
 ### Requirements
 
 1. **There can only be one set of adjoining sections**
-2. The [**Lethargy**](https://github.com/d4nyll/lethargy) is used to fix problems regarding inertial scroll. It is available as a Bower package, so for now, for v2.0.0, you must use Bower to install smartscroll. Otherwise, you must munually include the lethargy package and ensure it is loaded before smartscroll.
-
-### Install
-
-You can simply download the `smartscroll.min.js` file, or use a package manager.
-
-**npm**
-
-    npm install smartscroll
-
-**bower**
-
-    bower install smartscroll
 
 ### How to Use
 
@@ -59,7 +44,7 @@ Structure your HTML like so (default options included)
     </script>
     </body>
 
-> You may also want to link to `smartscroll.css`, but all that does is to ensure the `html` and `body` elements have no margins nor padding
+> You may also want to link to `styles.css`, but all that does is to ensure the `html` and `body` elements have no margins nor padding
 
 ##### Options
 
