@@ -8,11 +8,16 @@
 		sectionWrapperSelector: ".section-wrapper",
 		sectionClass: "section",
 		animationSpeed: 300,
-		headerHash: "header"
+		headerHash: "header",
+		breakpoint: null
 	}
 	$.smartscroll = function(overrides) {
+		this.validBreakPoint = false;
+		this.belowBreakpoint = false;
 		$.extend( options, overrides );
-
+		if(options.breakpoint !== null && options.breakpoint === parseInt(options.breakpoint, 10) && options.breakpoint > 0) {
+			this.validBreakPoint = true;
+		}
 		if (options.mode == "vp") {
 			$('.' + options.sectionClass).css({
 				"height": $(window).height()
@@ -66,6 +71,23 @@
 		
 		// Mouse Scroll
 		if(options.sectionScroll) {
+			if(this.validBreakPoint) {
+				$(window).bind('resize', function(e){
+					if($(window).width() < options.breakpoint) {
+						if(!this.belowBreakpoint) {
+							unbindScroll();
+							this.belowBreakpoint = true;
+							return false;
+						}
+					} else {
+						if(this.belowBreakpoint) {
+							bindScroll();
+							this.belowBreakpoint = false;
+						}
+					}
+				});
+			}
+			
 			var scrolling = false;
 			var scrollTo = function (slideIndex) {
 				scrolling = true;
@@ -89,22 +111,29 @@
 			var scrollDown = function () {
 				scrollTo(getCurrentSlideIndex() + 1);
 			};
-			$(window).bind('mousewheel DOMMouseScroll', function(e){
-				if(Math.max(window.document.body.scrollTop, document.documentElement.scrollTop) >= $(options.sectionWrapperSelector + ':first').position().top) {
-					if(!scrolling) {
-						e.preventDefault()
-						e.stopPropagation();
-						if(e.originalEvent.wheelDelta > 0 || e.originalEvent.detail < 0) {
-				            scrollUp();
-				        }
-				        else {
-				        	scrollDown();
-				        }
+			var bindScroll = function () {
+				$(window).bind('mousewheel DOMMouseScroll', function(e){
+					if(Math.max(window.document.body.scrollTop, document.documentElement.scrollTop) >= $(options.sectionWrapperSelector + ':first').position().top) {
+						if(!scrolling) {
+							e.preventDefault()
+							e.stopPropagation();
+							if(e.originalEvent.wheelDelta > 0 || e.originalEvent.detail < 0) {
+					            scrollUp();
+					        }
+					        else {
+					        	scrollDown();
+					        }
+						}
+						return false;
 					}
-					return false;
-				}
-				
-		    });
+			    });
+			};
+
+			var unbindScroll = function() {
+				$(window).unbind('mousewheel DOMMouseScroll');
+			}
+
+			bindScroll();
 		}
 		
 		// Hash
