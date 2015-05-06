@@ -1,4 +1,5 @@
 (function ($) {
+	var lethargy = new Lethargy();
 	var options = {
 		mode: "vp", // "vp", "set"
 		autoHash: true,
