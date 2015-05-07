@@ -1,5 +1,8 @@
 (function ($) {
-	var lethargy = new Lethargy();
+	var lethargy;
+	if(typeof Lethargy !== "undefined" && Lethargy !== null) {
+		lethargy = new Lethargy();
+	}
 	var options = {
 		mode: "vp", // "vp", "set"
 		autoHash: true,
@@ -115,16 +118,30 @@
 			var bindScroll = function () {
 				$(window).bind('mousewheel DOMMouseScroll', function(e){
 					if(Math.max(window.document.body.scrollTop, document.documentElement.scrollTop) >= $(options.sectionWrapperSelector + ':first').position().top) {
-						var validScroll = lethargy.check(e);
+						var validScroll;
+						if(lethargy) {
+							validScroll = lethargy.check(e);
+						}
 						e.preventDefault()
 						e.stopPropagation();
 						if(!scrolling) {
-							if (validScroll === 1) {
-					        	scrollUp();
-					        } else if (validScroll === -1) {
+							if(lethargy && validScroll === 1) {
+					            scrollUp();
+					        }
+					        else if (lethargy && validScroll === -1) {
+					        	scrollDown();
+					        }
+					        else if (lethargy && validScroll === false) {
+					        	return false;
+					        }
+					        else if (e.originalEvent.wheelDelta > 0 || e.originalEvent.detail < 0) {
+					            scrollUp();
+					        }
+					        else if (e.originalEvent.wheelDelta < 0 || e.originalEvent.detail > 0) {
 					        	scrollDown();
 					        }
 						}
+
 						return false;
 					}
 			    });
