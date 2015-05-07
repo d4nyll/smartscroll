@@ -12,6 +12,7 @@ It also supports:
 2. Hybrid Scrolling - Both normal and scrolljacking on the same page
 3. Compatible with scrollbar - Can use scrollbar as well as mousewheel
 4. Disabling permalink history
+5. Correctly detects scroll events for inertial scrolling, by integrating with [lethargy](https://github.com/d4nyll/lethargy)
 
 ### [Demo](//d4nyll.github.io/smartscroll/)
 
