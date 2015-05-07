@@ -12,7 +12,7 @@ It also supports:
 2. Hybrid Scrolling - Both normal and scrolljacking on the same page
 3. Compatible with scrollbar - Can use scrollbar as well as mousewheel
 4. Disabling permalink history
-5. Correctly detects scroll events for inertial scrolling, by integrating with [lethargy](https://github.com/d4nyll/lethargy)
+5. Correctly detects scroll events for inertial scrolling, by integrating with [lethargy](https://github.com/d4nyll/lethargy) as a soft dependency (which means it will work without it)
 
 ### [Demo](//d4nyll.github.io/smartscroll/)
 
@@ -29,7 +29,8 @@ Structure your HTML like so (default options included)
         <div class="section" data-hash="section-hash-name"></div>
         <div class="section" data-hash="section-hash-name"></div>
       </div>
-    <script src="path/to/smartscroll.js">
+    <script src="path/to/lethargy.min.js">
+    <script src="path/to/smartscroll.min.js">
     <script>
       var options = {
         mode: "vp", // "vp", "set"
@@ -48,6 +49,8 @@ Structure your HTML like so (default options included)
     </body>
 
 > You may also want to link to `styles.css`, but all that does is to ensure the `html` and `body` elements have no margins nor padding
+
+> You may also leave out lethargy, but smartscroll may not work as well with scroll devices that uses inertial scrolling. Performance with lethargy can be slower, but it will be improved with further development.
 
 ##### Options
 
