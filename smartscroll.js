@@ -8,7 +8,7 @@
 		keepHistory: false,
 		sectionWrapperSelector: ".section-wrapper",
 		sectionClass: "section",
-		animationSpeed: 300,
+		animationSpeed: 500,
 		headerHash: "header",
 		breakpoint: null
 	}
@@ -115,10 +115,10 @@
 			var bindScroll = function () {
 				$(window).bind('mousewheel DOMMouseScroll', function(e){
 					if(Math.max(window.document.body.scrollTop, document.documentElement.scrollTop) >= $(options.sectionWrapperSelector + ':first').position().top) {
+						var validScroll = lethargy.check(e);
+						e.preventDefault()
+						e.stopPropagation();
 						if(!scrolling) {
-							e.preventDefault()
-							e.stopPropagation();
-							var validScroll = lethargy.check(e);
 							if (validScroll === 1) {
 					        	scrollUp();
 					        } else if (validScroll === -1) {
