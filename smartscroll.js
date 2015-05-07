@@ -118,10 +118,10 @@
 						if(!scrolling) {
 							e.preventDefault()
 							e.stopPropagation();
-							if(e.originalEvent.wheelDelta > 0 || e.originalEvent.detail < 0) {
-					            scrollUp();
-					        }
-					        else {
+							var validScroll = lethargy.check(e);
+							if (validScroll === 1) {
+					        	scrollUp();
+					        } else if (validScroll === -1) {
 					        	scrollDown();
 					        }
 						}
