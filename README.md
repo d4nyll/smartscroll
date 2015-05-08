@@ -4,7 +4,7 @@ smartscroll is a tiny (1126b minfied + gzipped) jQuery plugin that has these *in
 
 1. Section scrolling - Scrolljacking
 2. Auto-hash - Updates the URL hash based on current position on page
-2. Responsive - You can disable scrolljacking below a set breakpoint
+3. Responsive - You can disable scrolljacking below a set breakpoint
 
 It also supports:
 
@@ -21,6 +21,8 @@ It also supports:
 1. **There can only be one set of adjoining sections**
 
 ### How to Use
+
+Install [lethargy](https://github.com/d4nyll/lethargy), which is available as a [Bower](http://bower.io/) package, which you can install with `bower install`.
 
 Structure your HTML like so (default options included)
 
@@ -50,7 +52,7 @@ Structure your HTML like so (default options included)
 
 > You may also want to link to `styles.css`, but all that does is to ensure the `html` and `body` elements have no margins nor padding
 
-> You may also leave out lethargy, but smartscroll may not work as well with scroll devices that uses inertial scrolling. Performance with lethargy can be slower, but it will be improved with further development.
+> You may also leave out [lethargy](https://github.com/d4nyll/lethargy), but smartscroll may not work as well with scroll devices that uses inertial scrolling. Performance with lethargy can be slower, but it will be improved with further development.
 
 ##### Options
 
