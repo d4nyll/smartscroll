@@ -130,8 +130,8 @@
 					// console.log('distanceToWhereHijackedAreaEnds: ' + distanceToWhereHijackedAreaEnds);
 
 					if(
-						distanceScrolled < parseInt(distanceToHijackedArea, 10) ||
-						distanceScrolled > parseInt(distanceToWhereHijackedAreaEnds, 10)
+						distanceScrolled <= parseInt(distanceToHijackedArea, 10) ||
+						distanceScrolled >= parseInt(distanceToWhereHijackedAreaEnds, 10)
 					){
 						// natural scroll
 					}
