@@ -117,7 +117,25 @@
 			};
 			var bindScroll = function () {
 				$(window).bind('mousewheel DOMMouseScroll', function(e){
-					if(Math.max(window.document.body.scrollTop, document.documentElement.scrollTop) >= $(options.sectionWrapperSelector + ':first').position().top) {
+					var $sectionWrapper = $(options.sectionWrapperSelector + ':first');
+					var distanceScrolled = Math.max(window.document.body.scrollTop, document.documentElement.scrollTop);
+					var distanceToHijackedArea = $sectionWrapper.position().top;
+					var distanceToWhereHijackedAreaEnds = $sectionWrapper.outerHeight() + distanceToHijackedArea - $(window).height();
+
+					// Debugging
+					// TODO: I leave this for now, but we can remove it later if Daniel want's to merge it
+					// console.log($(options.sectionWrapperSelector + ':first'));
+					// console.log('distanceScrolled: ' + distanceScrolled);
+					// console.log('distanceToHijackedArea: ' + distanceToHijackedArea);
+					// console.log('distanceToWhereHijackedAreaEnds: ' + distanceToWhereHijackedAreaEnds);
+
+					if(
+						distanceScrolled < parseInt(distanceToHijackedArea, 10) ||
+						distanceScrolled > parseInt(distanceToWhereHijackedAreaEnds, 10)
+					){
+						// natural scroll
+					}
+					else{
 						var validScroll;
 						if(lethargy) {
 							validScroll = lethargy.check(e);
