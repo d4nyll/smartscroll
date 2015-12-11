@@ -4,7 +4,7 @@
     "smartscroll.js",
     "sass/smartscroll.scss"
   ],
-  "version": "2.0.0",
+  "version": "2.0.1",
   "homepage": "https://github.com/d4nyll/smartscroll",
   "repository": {
     "type": "git",
@@ -29,6 +29,6 @@
     "tests"
   ],
   "dependencies": {
-    "lethargy": "1.0.2"
+    "lethargy": "1.0.4"
   }
 }
