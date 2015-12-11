@@ -122,20 +122,10 @@
 					var distanceToHijackedArea = $sectionWrapper.position().top;
 					var distanceToWhereHijackedAreaEnds = $sectionWrapper.outerHeight() + distanceToHijackedArea - $(window).height();
 
-					// Debugging
-					// TODO: I leave this for now, but we can remove it later if Daniel want's to merge it
-					// console.log($(options.sectionWrapperSelector + ':first'));
-					// console.log('distanceScrolled: ' + distanceScrolled);
-					// console.log('distanceToHijackedArea: ' + distanceToHijackedArea);
-					// console.log('distanceToWhereHijackedAreaEnds: ' + distanceToWhereHijackedAreaEnds);
-
-					if(
-						distanceScrolled <= parseInt(distanceToHijackedArea, 10) ||
-						distanceScrolled >= parseInt(distanceToWhereHijackedAreaEnds, 10)
-					){
+					if (distanceScrolled <= parseInt(distanceToHijackedArea, 10)
+						|| distanceScrolled >= parseInt(distanceToWhereHijackedAreaEnds, 10)) {
 						// natural scroll
-					}
-					else{
+					} else {
 						var validScroll;
 						if(lethargy) {
 							validScroll = lethargy.check(e);
