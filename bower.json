@@ -29,6 +29,6 @@
     "tests"
   ],
   "dependencies": {
-    "lethargy": "1.0.2"
+    "lethargy": "1.0.4"
   }
 }

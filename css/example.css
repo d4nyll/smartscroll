@@ -1,5 +1,5 @@
 /* line 1, ../sass/example.scss */
-.header, .section {
+.header, .footer, .section {
   display: table;
   width: 100%;
   text-align: center;
@@ -7,7 +7,7 @@
   box-sizing: border-box;
 }
 /* line 7, ../sass/example.scss */
-.header > div, .section > div {
+.header > div, .footer > div, .section > div {
   display: table-cell;
   vertical-align: middle;
 }
@@ -35,7 +35,7 @@ li {
 }
 
 /* line 31, ../sass/example.scss */
-.header {
+.header, .footer {
   height: 700px;
 }
 
