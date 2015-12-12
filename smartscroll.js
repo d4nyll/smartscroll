@@ -5,25 +5,12 @@
 	if(typeof Lethargy !== "undefined" && Lethargy !== null) {
 		lethargy = new Lethargy();
 	}
-
-	// Set default options
-	var options = {
-		animationSpeed: 500,
-		autoHash: true,
-		breakpoint: null,
-		initialScroll: true,
-		headerHash: "header",
-		keepHistory: false,
-		mode: "vp", // "vp", "set"
-		sectionClass: "section",
-		sectionScroll: true,
-		sectionWrapperSelector: ".section-wrapper"
-	}
-
+	
 	$.smartscroll = function(overrides) {
 
 		// Replace defaults with user-specified options
-		$.extend( options, overrides );
+		var options = $.extend({}, $.smartscroll.defaults, overrides );
+
 
 		// Common variables & functions
 		var currentHash = window.location.hash;
@@ -251,5 +238,20 @@
 
 			bindScroll();
 		}
+	}
+
+	// Set default options
+	$.smartscroll.defaults = {
+		animationSpeed: 500,
+		autoHash: true,
+		breakpoint: null,
+		initialScroll: true,
+		headerHash: "header",
+		keepHistory: false,
+		mode: "vp", // "vp", "set"
+		sectionClass: "section",
+		sectionScroll: true,
+		sectionWrapperSelector: ".section-wrapper",
+		eventEmitter: null
 	}
 }(jQuery));
