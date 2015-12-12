@@ -11,12 +11,16 @@
 		// Replace defaults with user-specified options
 		var options = $.extend({}, $.smartscroll.defaults, overrides );
 
+		// If `options.sectionSelector` is not set, use `options.sectionClass`
+		if(!options.sectionSelector) {
+			options.sectionSelector = "." + options.sectionClass;
+		}
 
 		// Common variables & functions
 		var currentHash = window.location.hash;
 
 		var slideCount = function () {
-			return $('.' + options.sectionClass).length;
+			return $(options.sectionSelector).length;
 		};
 
 		// Get the current slide showing. If the floor option is true, the current slide is the one touching the top of the viewport; if false, the one touching the middle of the viewport
@@ -25,7 +29,7 @@
 			var sectionPosition;
 
 			// How far the container is above the viewport
-			var containerViewportOffsetTop = -($('.' + options.sectionClass)[0].getBoundingClientRect().top);
+			var containerViewportOffsetTop = -($(options.sectionSelector)[0].getBoundingClientRect().top);
 
 			// If the sections are scaled to the viewport
 			if(options.mode == "vp") {
@@ -70,7 +74,7 @@
 				var currentSlideCount = slideCount();
 
 				var getSectionPosition = function (index) {
-					return $('.' + options.sectionClass + ':nth-of-type(' + (index) + ')')[0].offsetTop - $(options.sectionWrapperSelector + ':first').position().top;
+					return $(options.sectionSelector + ':nth-of-type(' + (index) + ')')[0].offsetTop - $(options.sectionWrapperSelector + ':first').position().top;
 				}
 				for (var i = 0; i < currentSlideCount; i++) {
 
@@ -102,7 +106,7 @@
 
 		if(options.autoHash) {
 			$(window).bind('scroll', function(e){
-				var newHash = $('.' + options.sectionClass + ':nth-of-type(' + (getSectionIndexAt("top") + 1) + ')').data('hash');
+				var newHash = $(options.sectionSelector + ':nth-of-type(' + (getSectionIndexAt("top") + 1) + ')').data('hash');
 				if(typeof newHash === 'undefined' || !(window.location.hash === ('#' + newHash))) {
 					if(typeof newHash === 'undefined') {
 						newHash = options.headerHash;	
@@ -140,7 +144,7 @@
 		// If the mode is set to vp (viewpoint), make the height of each section the same as the viewport
 		if (options.mode == "vp") {
 			var resizeToVP = function() {
-				$('.' + options.sectionClass).css({
+				$(options.sectionSelector).css({
 					"height": $(window).height()
 				});
 			};
@@ -179,7 +183,7 @@
 				} else if (slideIndex >= slideCount()) {
 					scrollTopVal = window.document.body.scrollTop + 53;
 				} else {
-					scrollTopVal = $('.' + options.sectionClass + ':nth-of-type(' + (slideIndex + 1) + ')')[0].offsetTop;
+					scrollTopVal = $(options.sectionSelector + ':nth-of-type(' + (slideIndex + 1) + ')')[0].offsetTop;
 					scrollSpeed = options.animationSpeed;
 				}
 				scrollToPixel(scrollTopVal, scrollSpeed);
@@ -250,6 +254,7 @@
 		keepHistory: false,
 		mode: "vp", // "vp", "set"
 		sectionClass: "section",
+		sectionSelector: null,
 		sectionScroll: true,
 		sectionWrapperSelector: ".section-wrapper",
 		eventEmitter: null
