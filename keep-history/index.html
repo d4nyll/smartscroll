@@ -36,11 +36,14 @@
 			</div>
 		</div>
 	</div>
+	<script type="text/javascript" src="../EventEmitter.min.js"></script>
 	<script type="text/javascript" src="../lethargy.min.js"></script>
 	<script type="text/javascript" src="../smartscroll.min.js"></script>
 	<script>
+		var ee = new EventEmitter();
 		$.smartscroll({
-			keepHistory: true
+			keepHistory: true,
+			eventEmitter: ee
 		});
 	</script>
 </body>

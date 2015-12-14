@@ -80,13 +80,16 @@
 			</div>
 		</div>
 	</div>
+	<script type="text/javascript" src="./EventEmitter.min.js"></script>
 	<script type="text/javascript" src="./lethargy.min.js"></script>
 	<script type="text/javascript" src="./smartscroll.min.js"></script>
 	<script>
+		var ee = new EventEmitter();
 		$.smartscroll({
 			sectionWrapperSelector: ".section-wrapper",
 			sectionClass: "section",
-			headerHash: "welcome"
+			headerHash: "welcome",
+			eventEmitter: ee
 		});
 	</script>
 </body>

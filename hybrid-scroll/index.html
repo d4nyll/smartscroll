@@ -54,10 +54,14 @@
 			<p>This section is not inside the section wrapper, so normal scrolling here!</p>
 		</div>
 	</div>
+	<script type="text/javascript" src="../EventEmitter.min.js"></script>
 	<script type="text/javascript" src="../lethargy.min.js"></script>
 	<script type="text/javascript" src="../smartscroll.min.js"></script>
 	<script>
-		$.smartscroll({});
+		var ee = new EventEmitter();
+		$.smartscroll({
+			eventEmitter: ee
+		});
 	</script>
 </body>
 </html>
