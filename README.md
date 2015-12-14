@@ -1,6 +1,6 @@
 # smartscroll
 
-smartscroll is a tiny (1164b minfied + gzipped) jQuery plugin that has these *independent* features:
+smartscroll is a tiny (1378b minfied + gzipped) jQuery plugin that has these *independent* features:
 
 1. Section scrolling - Scrolljacking
 2. Auto-hash - Updates the URL hash based on current position on page
@@ -32,11 +32,12 @@ Structure your HTML like so (default options included)
         <div class="section" data-hash="section-hash-name"></div>
       </div>
     <script src="path/to/lethargy.min.js">
+    <script src="https://rawgit.com/Olical/EventEmitter/master/EventEmitter.min.js"></script>
     <script src="path/to/smartscroll.min.js">
     <script>
       var options = {
         mode: "vp", // "vp", "set"
-        autoHash: true,
+        autoHash: false,
         sectionScroll: true,
         initialScroll: true,
         keepHistory: false,
@@ -44,7 +45,9 @@ Structure your HTML like so (default options included)
         sectionClass: "section",
         animationSpeed: 300,
         headerHash: "header",
-        breakpoint: null
+        breakpoint: null,
+        eventEmitter: null,
+        dynamicHeight: false
       };
       $.smartscroll(options);
     </script>
@@ -59,7 +62,7 @@ Structure your HTML like so (default options included)
 * `mode` - (String) Valid options are:
   * `vp` (Viewport) - The sections will be automatically sized to be the same as the viewport
   * `set` - Use the height and width set by CSS (use this for having different heights for different sections)
-* `autoHash` - (Boolean) Whether the auto-hashing feature is enabled
+* `autoHash` - (Boolean) Whether the auto-hashing feature is enabled. If you use this feature, it is important to use EventEmitter as well, otherwise smartscroll will listen to every `scroll` event, which is very resource-draining and can make the animation more 'glitchy'
 * `sectionScroll` - (Boolean) Whether the section-scrolling feature is enabled
 * `initialScroll` - (Boolean) Whether smartscroll should scroll to the position specified by the hash on initial load
 * `keepHistory` - (Boolean) Whether scrolling through different sections will be recorded in the browser's history
@@ -68,6 +71,9 @@ Structure your HTML like so (default options included)
 * `animationSpeed` - (Integer) Time taken for the scroll animation, in miliseconds
 * `headerHash` - (String) The hash for the section above the sections, must be non-empty to reliably ensure the page do not jump when updating the hash value across browsers (as `#` means `_top`)
 * `breakpoint` - (Integer) The width of the browser below which scrolljacking will be disabled
+* `sectionSelector` - (String) The selector applied to each section, overrides `sectionClass` and allow more flexibility in choosing a selector. (Added in 2.1.0)
+* `dynamicHeight` - (Boolean) If you are going to be dynamically adding and removing content so as to change the position and/or size of the section wrappers and/or sections, then set this to true. Set to false otherwise to increase performance.
+
 
 ### Architecture
 
