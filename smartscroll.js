@@ -1,14 +1,63 @@
 (function ($) {
 
+	///////////////
+	///CONSTANTS///
+	///////////////
+	
+	var MOUSE_EVENTS_STRING = 'mousewheel DOMMouseScroll wheel MozMousePixelScroll';
+
+	//////////////////
+	///DEPENDENCIES///
+	//////////////////
+
 	// Register lethargy as a soft dependency
 	var lethargy;
 	if(typeof Lethargy !== "undefined" && Lethargy !== null) {
 		lethargy = new Lethargy();
 	}
+
+	///////////////
+	///FUNCTIONS///
+	///////////////
+	
+	var getWindowTop = function () {
+		// jQuery uses only window.pageYOffset
+		// https://github.com/jquery/jquery/blob/29370190605ed5ddf5d0371c6ad886a4a4b5e0f9/src/offset.js#L184
+		return Math.max(
+			// Does not work for IE8 or below
+			// Alias for window.scrollY
+			// https://developer.mozilla.org/en-US/docs/Web/API/Window/pageYOffset
+			window.pageYOffset,
+
+			// Does not work for IE versions below Edge
+			// https://developer.mozilla.org/en-US/docs/Web/API/Window/scrollY
+			// 
+			// window.scrollY,
+
+			// Caters for quirks mode
+			// Deprecated in ES5 strict mode
+			// so for standards mode use document.documentElement.scrollTop instead
+			// 
+			window.document.body.scrollTop,
+
+			// Caters for standards mode
+			// Should be the same as `window.pageYOffset`
+			window.document.documentElement.scrollTop
+		);
+	}
+
+	var isInArray = function(value, array) {
+	  return array.indexOf(value) > -1;
+	}
 	
 	$.smartscroll = function(overrides) {
 
+		/////////////
+		///OPTIONS///
+		/////////////
+
 		// Replace defaults with user-specified options
+		// Properties that are `null` or `undefined` are ignored - https://api.jquery.com/jquery.extend/
 		var options = $.extend({}, $.smartscroll.defaults, overrides );
 
 		// If `options.sectionSelector` is not set, use `options.sectionClass`
@@ -16,237 +65,297 @@
 			options.sectionSelector = "." + options.sectionClass;
 		}
 
-		// Common variables & functions
+		// Invalidate eventEmitter if:
+		if (
+			// EventEmitter is not available / loaded,
+			typeof EventEmitter === "undefined"
+			|| EventEmitter === null
+			// or the property of options.eventEmitter it is not an EventEmitter instance
+			|| (options.eventEmitter && options.eventEmitter.constructor !== EventEmitter)
+		) {
+			options.eventEmitter = null;
+		}
+
+		///////////////////////
+		///RUNTIME VARIABLES///
+		///////////////////////
+
+		// Whether jQuery is currently animating the scroll event
+		var isScrolling = false;
+
+		var sections = [];
+		var sectionWrapperTop;
+		var sectionWrapperBottom;
+
+		var validBreakPoint = false;
+		var belowBreakpoint = false;
+
 		var currentHash = window.location.hash;
 
-		var slideCount = function () {
-			return $(options.sectionSelector).length;
-		};
+		// Store the current section wrapper method for later use
+		var sectionWrapper = $(options.sectionWrapperSelector + ':first');
 
-		// Get the current slide showing. If the floor option is true, the current slide is the one touching the top of the viewport; if false, the one touching the middle of the viewport
-		var getSectionIndexAt = function (line) {
-
-			var sectionPosition;
-
-			// How far the container is above the viewport
-			var containerViewportOffsetTop = -($(options.sectionSelector)[0].getBoundingClientRect().top);
-
-			// If the sections are scaled to the viewport
-			if(options.mode == "vp") {
-				sectionPosition = containerViewportOffsetTop / $(window).height();
-				switch (line) {
-					case "bottom":
-						return Math.ceil(sectionPosition);
-					case "top":
-						return Math.floor(sectionPosition);
-						break;
-					case "middle":
-					default:
-						return Math.round(sectionPosition)
-						break;
-				}
-			}
-
-			// If the sections can have different heights
-			else {
-				sectionPosition = -1;
-
-				// If the sections are no active, return an invalid value (-1)
-				var position = containerViewportOffsetTop;
-				switch (line) {
-					case "middle":
-						position += $(window).height() / 2;
-					case "bottom":
-						position += $(window).height();
-					case "top":
-					default:
-						break;
-				}
-
-				// If the line lies above the section, return -1
-				if(position < 0) {
-					return sectionPosition;
-				}
-
-				// Find the current section position by adding up the heights of the sections until it reaches our threshold
-				var currentSlideRelPos;
-				var nextSlideRelPos;
-				var currentSlideCount = slideCount();
-
-				var getSectionPosition = function (index) {
-					return $(options.sectionSelector + ':nth-of-type(' + (index) + ')')[0].offsetTop - $(options.sectionWrapperSelector + ':first').position().top;
-				}
-				for (var i = 0; i < currentSlideCount; i++) {
-
-					// We are using index, so start with 0
-					sectionPosition = i;
-
-					if(i < (currentSlideCount - 1)) {
-						currentSlideRelPos = getSectionPosition(i + 1);
-						nextSlideRelPos = getSectionPosition(i + 2);
-						if(currentSlideRelPos <= position && position < nextSlideRelPos) {
-							break;
-						}
-					}
-				}
-				// The last slide and anything below it are deemed to be the same section
-				return sectionPosition;
-			}
-		};
-
+		///////////////
+		///FUNCTIONS///
+		///////////////
+		
+		// Animates the scroll to the pixel specified
+		// at the speed (milisseconds) specified
 		var scrollToPixel = function (pixel, speed) {
+			isScrolling = true;
+			if(options.eventEmitter) {
+				ee.emitEvent("scrollStart", [pixel, speed]);	
+			}
 			$('body,html').stop(true,true).animate({
 				scrollTop: pixel
 			}, speed, function() {
-				scrolling = false;
+				isScrolling = false;
+				if(options.eventEmitter) {
+					ee.emitEvent("scrollEnd", [pixel, speed]);
+				}
 			});
 		};
 
-		// autoHash
+		// Update the values for `sections`
+		var calculateSectionBottoms = function () {
+			var tmpSections = [];
+			$(options.sectionSelector).each(function (i, el) {
+				sectionWrapperTop = Math.round(
+					sectionWrapper.position().top
+					+ parseInt(sectionWrapper.css('paddingTop'), 10)
+					+ parseInt(sectionWrapper.css('borderTopWidth'), 10)
+					+ parseInt(sectionWrapper.css('marginTop'), 10));
 
-		if(options.autoHash) {
-			$(window).bind('scroll', function(e){
-				var newHash = $(options.sectionSelector + ':nth-of-type(' + (getSectionIndexAt("top") + 1) + ')').data('hash');
-				if(typeof newHash === 'undefined' || !(window.location.hash === ('#' + newHash))) {
-					if(typeof newHash === 'undefined') {
-						newHash = options.headerHash;	
-					}
-					if(!options.keepHistory) {
-						window.location.replace(window.location.href.split('#')[0] + '#' + newHash);
-					} else {
-						window.location.hash = newHash;
+				// We use `height()` instead of `innerHeight()` or `outerHeight()`
+				// because we don't care about the padding in the sectionWrapper at the bottom
+				sectionWrapperBottom = Math.round(
+					sectionWrapperTop
+					+ sectionWrapper.height(), 10);
+
+				tmpSections.push(Math.round(
+					sectionWrapperTop
+					+ $(el).position().top // This will be relative to the sectionWrapper
+					+ $(el).outerHeight()
+				));
+			});
+			sections = tmpSections;
+		};
+
+		// Given the event object, determines if it's up or down,
+		// or invalid according to lethargy
+		var getScrollAction = function (e) {
+			// Always register the action with lethargy
+			if(lethargy) {
+				var validScroll = lethargy.check(e);
+			}
+			// Do nothing if it is already scrolling
+			if(!isScrolling) {
+				if(lethargy) {
+					if(validScroll === 1) {
+			            return "up";
+			        }
+			        else if (validScroll === -1) {
+			        	return "down";
+			        }
+				} else {
+					if (e.originalEvent.wheelDelta > 0 || e.originalEvent.detail < 0) {
+			            return "up";
+			        }
+			        else if (e.originalEvent.wheelDelta < 0 || e.originalEvent.detail > 0) {
+			        	return "down";
+			        }
+				}
+			}
+			return false;
+		}
+
+		// Checks the slide that is occupying the position specified
+		var getSectionIndexAt = function (position) {
+			for (var i = 0; i < sections.length; i++) {
+				if (position <= sections[i]) {
+					return i;
+				}
+			}
+		}
+
+		// Bind scroll events and perform scrolljacking
+		var bindScroll = function () {
+			$(window).bind(MOUSE_EVENTS_STRING, function(e) {
+				var scrollAction = getScrollAction(e);
+				if(options.dynamicHeight) {
+					calculateSectionBottoms();
+				}
+				var windowTop = getWindowTop();
+				var windowBottom = windowTop + $(window).height();
+				// Only affect scrolling if within the sectionWrapper area
+				if (
+					windowTop >= sectionWrapperTop
+					&& windowBottom <= sectionWrapperBottom
+				) {
+					// Only hijack the scroll when windowTop and windowBottom are touching different slides
+					// `!==` instead of `<` caters for when `getSectionIndexAtWindowBottom` is `undefined`
+					// (at the end of the area)
+					var sectionIndexAtWindowTop = getSectionIndexAt(windowTop);
+					var sectionIndexAtWindowMiddle = getSectionIndexAt(windowTop + ($(window).height() / 2));
+					var sectionIndexAtWindowBottom = getSectionIndexAt(windowBottom);
+					if (sectionIndexAtWindowTop !== sectionIndexAtWindowBottom) {
+						e.preventDefault();
+						e.stopPropagation();
+						if (scrollAction) {
+							if (scrollAction === "up" && sectionIndexAtWindowBottom !== undefined) {
+								scrollToPixel(sections[sectionIndexAtWindowMiddle - 1] - $(window).height(), options.animationSpeed);
+							}
+							else if(scrollAction === "down" && sectionIndexAtWindowTop !== undefined) {
+								scrollToPixel(sections[sectionIndexAtWindowMiddle] + 1, options.animationSpeed);
+							}
+						}
 					}
 				}
 		    });
+		};
+
+		// Remove all functions bound to mouse events
+		var unbindScroll = function() {
+			$(window).unbind(MOUSE_EVENTS_STRING);
 		}
+
+		// Change the hash (and also record history depending on options)
+		var autoHash = function () {
+			var newHash;
+			if((getWindowTop() + ($(window).height() / 2)) < sectionWrapperTop) {
+				newHash = options.headerHash;
+			} else {
+				var slideIndex = getSectionIndexAt(getWindowTop() + ($(window).height() / 2));
+				if(slideIndex !== undefined) {
+					newHash = $(options.sectionSelector + ':nth-of-type(' + (slideIndex + 1) + ')').data('hash');
+				}
+			}
+			if(typeof newHash === 'undefined' || !(window.location.hash === ('#' + newHash))) {
+				if(typeof newHash === 'undefined') {
+					newHash = options.headerHash;
+				}
+				if(!options.keepHistory) {
+					window.location.replace(window.location.href.split('#')[0] + '#' + newHash);
+				} else {
+					window.location.hash = newHash;
+				}
+			}
+		}
+
+		///////////////////
+		///INITIAL SETUP///
+		///////////////////
+
+		sectionWrapper.css({
+			'position': 'relative'
+		});
+		
+		// Need to wait until content and CSS has been parsed
+		// So the height is accurate
+		setTimeout(function () {
+			calculateSectionBottoms();
+
+			// autoHash
+
+			if(options.autoHash) {
+
+				if(options.eventEmitter !== null && !options.hashContinuousUpdate) {
+					ee.addListener('scrollEnd', autoHash);
+				}
+				// Fallback with binding scroll events.
+				// Many scroll events are fired and so is very resource-intensive
+				else {
+					$(window).bind('scroll', autoHash);
+				}
+			}
+
+			// Scroll to hash
+		
+			if(options.initialScroll && currentHash.length > 0) {
+				// Remove the '#' from the hash and use jQuery to check
+				// if an element exists with that hash in the 'data-hash' attribute
+				var matchedObject = $('[data-hash="' + currentHash.substr(1) + '"]');
+				// If there is a matched element, scroll to the first element at time 0 (immediately)
+				if(matchedObject.length > 0) {
+					scrollToPixel(matchedObject[0].offsetTop + sectionWrapperTop, 0);
+				}
+			}
+		}, 50);
+
+		$(window).bind('resize', calculateSectionBottoms);
 
 		// Breakpoint
-		
-		// Set the breakpoint if it is valid. This is needed for the breakpoint feature
-		this.validBreakPoint = false;
-		this.belowBreakpoint = false;
+
+		// If options.breakpoint is a valid value,
+		// set this.validBreakPoint to true
 		if(options.breakpoint !== null && options.breakpoint === parseInt(options.breakpoint, 10) && options.breakpoint > 0) {
-			this.validBreakPoint = true;
-		}
-
-
-		// Scroll to hash
-		
-		if(options.initialScroll && currentHash.length > 0) {
-			var matchedObject = $('[data-hash="' + currentHash.substr(1) + '"]');
-			if(matchedObject.length > 0) {
-				scrollToPixel(matchedObject[0].offsetTop, 0);
-			}
+			validBreakPoint = true;
 		}
 
 		// Mode
 		
-		// If the mode is set to vp (viewpoint), make the height of each section the same as the viewport
+		// If the mode is set to vp (viewpoint),
+		// make the height of each section the same as the viewport
 		if (options.mode == "vp") {
-			var resizeToVP = function() {
+			// IE8 does not support viewport
+			// http://caniuse.com/#feat=viewport-units
+			if(options.ie8) {
+				var resizeToVP = function() {
+					$(options.sectionSelector).css({
+						"height": $(window).height()
+					});
+				};
+
+				// Initial resizing on load
+				resizeToVP();
+
+				// Run resizeToVP whenever the window resizes
+				$(window).bind('resize', resizeToVP);
+			}
+			// Use viewport to avoid binding to resize events
+			else {
 				$(options.sectionSelector).css({
-					"height": $(window).height()
+					"height": "100vh"
 				});
-			};
-			resizeToVP();
-			$(window).bind('resize', resizeToVP);
+			}
 		}
 
-		// Main
-
+		// Scrolljacking
 		if(options.sectionScroll) {
-			if(this.validBreakPoint) {
+
+			// If the breakpoint option is set
+			if(validBreakPoint) {
+
+				// Run the following whenever the window is resized
 				$(window).bind('resize', function(e){
+					// If the window width is below the breakpoint,
+					// Unbind scroll
 					if($(window).width() < options.breakpoint) {
-						if(!this.belowBreakpoint) {
+						// Only unbind once (minimize resource usage)
+						if(!belowBreakpoint) {
 							unbindScroll();
-							this.belowBreakpoint = true;
+							// Set belowBreakpoint to true to prevent further unbinding events
+							belowBreakpoint = true;
 							return false;
 						}
-					} else {
-						if(this.belowBreakpoint) {
+					}
+					// If the screen width is currently equal to or above the breakpoint
+					else {
+						// Bind scroll only if it's not bound already
+						if(belowBreakpoint) {
 							bindScroll();
-							this.belowBreakpoint = false;
+							belowBreakpoint = false;
 						}
 					}
 				});
 			}
-			
-			var scrolling = false;
-			var scrollTo = function (slideIndex) {
-				console.log(slideIndex);
-				scrolling = true;
-				var scrollTopVal;
-				var scrollSpeed = 0;
-				if (slideIndex < 0) {
-					scrollTopVal = $(options.sectionWrapperSelector + ':first').position().top - 53;
-				} else if (slideIndex >= slideCount()) {
-					scrollTopVal = window.document.body.scrollTop + 53;
-				} else {
-					scrollTopVal = $(options.sectionSelector + ':nth-of-type(' + (slideIndex + 1) + ')')[0].offsetTop;
-					scrollSpeed = options.animationSpeed;
-				}
-				scrollToPixel(scrollTopVal, scrollSpeed);
-				return false;
-			};
-			var scrollUp = function () {
-				scrollTo(getSectionIndexAt() - 1);
-			};
-			var scrollDown = function () {
-				scrollTo(getSectionIndexAt() + 1);
-			};
-			var bindScroll = function () {
-
-				$(window).bind('mousewheel DOMMouseScroll wheel MozMousePixelScroll', function(e){
-					var $sectionWrapper = $(options.sectionWrapperSelector + ':first');
-					var distanceScrolled = Math.max(window.document.body.scrollTop, document.documentElement.scrollTop);
-					var distanceToHijackedArea = $sectionWrapper.position().top;
-					var distanceToWhereHijackedAreaEnds = $sectionWrapper.outerHeight() + distanceToHijackedArea - $(window).height();
-
-					if (distanceScrolled <= parseInt(distanceToHijackedArea, 10)
-						|| distanceScrolled >= parseInt(distanceToWhereHijackedAreaEnds, 10)) {
-						// natural scroll
-					} else {
-						var validScroll;
-						if(lethargy) {
-							validScroll = lethargy.check(e);
-						}
-						e.preventDefault()
-						e.stopPropagation();
-						if(!scrolling) {
-							if(lethargy && validScroll === 1) {
-					            scrollUp();
-					        }
-					        else if (lethargy && validScroll === -1) {
-					        	scrollDown();
-					        }
-					        else if (lethargy && validScroll === false) {
-					        	return false;
-					        }
-					        else if (e.originalEvent.wheelDelta > 0 || e.originalEvent.detail < 0) {
-					            scrollUp();
-					        }
-					        else if (e.originalEvent.wheelDelta < 0 || e.originalEvent.detail > 0) {
-					        	scrollDown();
-					        }
-						}
-
-						return false;
-					}
-			    });
-			};
-
-			var unbindScroll = function() {
-				$(window).unbind('mousewheel DOMMouseScroll wheel MozMousePixelScroll');
-			}
-
 			bindScroll();
 		}
 	}
 
 	// Set default options
 	$.smartscroll.defaults = {
-		animationSpeed: 500,
+		animationSpeed: 700,
 		autoHash: true,
 		breakpoint: null,
 		initialScroll: true,
@@ -257,6 +366,9 @@
 		sectionSelector: null,
 		sectionScroll: true,
 		sectionWrapperSelector: ".section-wrapper",
-		eventEmitter: null
+		eventEmitter: null,
+		dynamicHeight: false,
+		ie8: false,
+		hashContinuousUpdate: true
 	}
 }(jQuery));
