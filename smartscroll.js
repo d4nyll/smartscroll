@@ -196,7 +196,8 @@
 					var sectionIndexAtWindowTop = getSectionIndexAt(windowTop);
 					var sectionIndexAtWindowMiddle = getSectionIndexAt(windowTop + ($(window).height() / 2));
 					var sectionIndexAtWindowBottom = getSectionIndexAt(windowBottom);
-					if (sectionIndexAtWindowTop !== sectionIndexAtWindowBottom) {
+					if (sectionIndexAtWindowTop !== sectionIndexAtWindowBottom
+						|| !options.innerSectionScroll) {
 						e.preventDefault();
 						e.stopPropagation();
 						if (scrollAction) {
@@ -373,6 +374,7 @@
 		eventEmitter: null,
 		dynamicHeight: false,
 		ie8: false,
-		hashContinuousUpdate: true
+		hashContinuousUpdate: true,
+		innerSectionScroll: true
 	}
 }(jQuery));
