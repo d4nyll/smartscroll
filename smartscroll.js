@@ -104,14 +104,14 @@
 		var scrollToPixel = function (pixel, speed) {
 			isScrolling = true;
 			if(options.eventEmitter) {
-				ee.emitEvent("scrollStart", [pixel, speed]);	
+				options.eventEmitter.emitEvent("scrollStart", [pixel, speed]);	
 			}
 			$('body,html').stop(true,true).animate({
 				scrollTop: pixel
 			}, speed, function() {
 				isScrolling = false;
 				if(options.eventEmitter) {
-					ee.emitEvent("scrollEnd", [pixel, speed]);
+					options.eventEmitter.emitEvent("scrollEnd", [pixel, speed]);
 				}
 			});
 		};
@@ -261,7 +261,7 @@
 			if(options.autoHash) {
 
 				if(options.eventEmitter !== null && !options.hashContinuousUpdate) {
-					ee.addListener('scrollEnd', autoHash);
+					options.eventEmitter.addListener('scrollEnd', autoHash);
 				}
 				// Fallback with binding scroll events.
 				// Many scroll events are fired and so is very resource-intensive
