@@ -103,15 +103,12 @@
 		// at the speed (milisseconds) specified
 		var scrollToPixel = function (pixel, speed) {
 			isScrolling = true;
-			if(options.eventEmitter) {
-				options.eventEmitter.emitEvent("scrollStart", [pixel, speed]);	
-			}
 			$('body,html').stop(true,true).animate({
 				scrollTop: pixel
 			}, speed, function() {
 				isScrolling = false;
 				if(options.eventEmitter) {
-					options.eventEmitter.emitEvent("scrollEnd", [pixel, speed]);
+					options.eventEmitter.emitEvent("scrollEnd");
 				}
 			});
 		};
@@ -205,9 +202,15 @@
 						if (scrollAction) {
 							if (scrollAction === "up") {
 								scrollToPixel(sections[sectionIndexAtWindowMiddle - 1] - $(window).height(), options.animationSpeed);
+								if(options.eventEmitter) {
+									options.eventEmitter.emitEvent("scrollStart", [sectionIndexAtWindowMiddle - 1]);	
+								}
 							}
 							else if(scrollAction === "down") {
 								scrollToPixel(sections[sectionIndexAtWindowMiddle] + 1, options.animationSpeed);
+								if(options.eventEmitter) {
+									options.eventEmitter.emitEvent("scrollStart", [sectionIndexAtWindowMiddle + 1]);	
+								}
 							}
 						}
 					}

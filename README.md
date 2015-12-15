@@ -1,6 +1,6 @@
 # smartscroll
 
-smartscroll is a tiny (1383b minfied + gzipped) jQuery plugin that has these *independent* features:
+smartscroll is a tiny (1386b minfied + gzipped) jQuery plugin that has these *independent* features:
 
 1. Section scrolling - Scrolljacking
 2. Auto-hash - Updates the URL hash based on current position on page
@@ -73,7 +73,26 @@ Structure your HTML like so (default options included)
 * `breakpoint` - (Integer) The width of the browser below which scrolljacking will be disabled
 * `sectionSelector` - (String) The selector applied to each section, overrides `sectionClass` and allow more flexibility in choosing a selector. (Added in 2.1.0)
 * `dynamicHeight` - (Boolean) If you are going to be dynamically adding and removing content so as to change the position and/or size of the section wrappers and/or sections, then set this to true. Set to false otherwise to increase performance.
+* `eventEmitter` - (Object) If you pass in an eventEmitter object, autoHashing will be much more efficient. You can also listen to the scroll events this way. Defaults to `null`.
+* `ie8` - If you need to support Internet Explorer 8, change this to `true`. Defaults to `false`.
 
+### Events
+
+Smartscroll provides two events `scrollStart` and `scrollEnd`. The listener will receive the slide number as its only argument. The first slide will have a number of `1`, the section before the sectionWrapper will have a number of `0`.
+
+    var ee = new EventEmitter();
+    var scrollStartListener = function (slideNumber) {
+      console.log("Scrolling to " + slideNumber);
+    }
+    var scrollEndListener = function () {
+      console.log("Scrolling End");
+    }
+    ee.addListener('scrollStart', scrollStartListener);
+    ee.addListener('scrollEnd', scrollEndListener);
+    $.smartscroll({
+      ...
+      eventEmitter: ee
+    });
 
 ### Architecture
 
