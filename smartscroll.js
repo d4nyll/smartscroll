@@ -130,7 +130,7 @@
 			sectionWrapperBottom = Math.round(
 				sectionWrapperTop
 				+ sectionWrapper.height(), 10);
-			
+			tmpSections.push(sectionWrapperTop);
 			$(options.sectionSelector).each(function (i, el) {
 				tmpSections.push(Math.round(
 					sectionWrapperTop
@@ -176,6 +176,7 @@
 					return i;
 				}
 			}
+			return sections.length;
 		}
 
 		// Bind scroll events and perform scrolljacking
@@ -189,8 +190,8 @@
 				var windowBottom = windowTop + $(window).height();
 				// Only affect scrolling if within the sectionWrapper area
 				if (
-					windowTop >= sectionWrapperTop
-					&& windowBottom <= sectionWrapperBottom
+					windowBottom > sectionWrapperTop
+					&& windowTop <= sectionWrapperBottom
 				) {
 					// Only hijack the scroll when windowTop and windowBottom are touching different slides
 					// `!==` instead of `<` caters for when `getSectionIndexAtWindowBottom` is `undefined`
@@ -202,10 +203,10 @@
 						e.preventDefault();
 						e.stopPropagation();
 						if (scrollAction) {
-							if (scrollAction === "up" && sectionIndexAtWindowBottom !== undefined) {
+							if (scrollAction === "up") {
 								scrollToPixel(sections[sectionIndexAtWindowMiddle - 1] - $(window).height(), options.animationSpeed);
 							}
-							else if(scrollAction === "down" && sectionIndexAtWindowTop !== undefined) {
+							else if(scrollAction === "down") {
 								scrollToPixel(sections[sectionIndexAtWindowMiddle] + 1, options.animationSpeed);
 							}
 						}
