@@ -119,19 +119,19 @@
 		// Update the values for `sections`
 		var calculateSectionBottoms = function () {
 			var tmpSections = [];
+			sectionWrapperTop = Math.round(
+				sectionWrapper.position().top
+				+ parseInt(sectionWrapper.css('paddingTop'), 10)
+				+ parseInt(sectionWrapper.css('borderTopWidth'), 10)
+				+ parseInt(sectionWrapper.css('marginTop'), 10));
+
+			// We use `height()` instead of `innerHeight()` or `outerHeight()`
+			// because we don't care about the padding in the sectionWrapper at the bottom
+			sectionWrapperBottom = Math.round(
+				sectionWrapperTop
+				+ sectionWrapper.height(), 10);
+			
 			$(options.sectionSelector).each(function (i, el) {
-				sectionWrapperTop = Math.round(
-					sectionWrapper.position().top
-					+ parseInt(sectionWrapper.css('paddingTop'), 10)
-					+ parseInt(sectionWrapper.css('borderTopWidth'), 10)
-					+ parseInt(sectionWrapper.css('marginTop'), 10));
-
-				// We use `height()` instead of `innerHeight()` or `outerHeight()`
-				// because we don't care about the padding in the sectionWrapper at the bottom
-				sectionWrapperBottom = Math.round(
-					sectionWrapperTop
-					+ sectionWrapper.height(), 10);
-
 				tmpSections.push(Math.round(
 					sectionWrapperTop
 					+ $(el).position().top // This will be relative to the sectionWrapper
