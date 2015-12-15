@@ -109,7 +109,9 @@
 			$('body,html').stop(true,true).animate({
 				scrollTop: pixel
 			}, speed, function() {
-				isScrolling = false;
+				setTimeout(function () {
+					isScrolling = false;
+				}, 500);
 				if(options.eventEmitter) {
 					ee.emitEvent("scrollEnd", [pixel, speed]);
 				}
@@ -119,12 +121,11 @@
 		// Update the values for `sections`
 		var calculateSectionBottoms = function () {
 			var tmpSections = [];
-			$(options.sectionSelector).each(function (i, el) {
-				sectionWrapperTop = Math.round(
-					sectionWrapper.position().top
-					+ parseInt(sectionWrapper.css('paddingTop'), 10)
-					+ parseInt(sectionWrapper.css('borderTopWidth'), 10)
-					+ parseInt(sectionWrapper.css('marginTop'), 10));
+			sectionWrapperTop = Math.round(
+				sectionWrapper.position().top
+				+ parseInt(sectionWrapper.css('paddingTop'), 10)
+				+ parseInt(sectionWrapper.css('borderTopWidth'), 10)
+				+ parseInt(sectionWrapper.css('marginTop'), 10));
 
 				// We use `height()` instead of `innerHeight()` or `outerHeight()`
 				// because we don't care about the padding in the sectionWrapper at the bottom
@@ -132,6 +133,8 @@
 					sectionWrapperTop
 					+ sectionWrapper.height(), 10);
 
+			tmpSections.push(sectionWrapperTop);
+			$(options.sectionSelector).each(function (i, el) {
 				tmpSections.push(Math.round(
 					sectionWrapperTop
 					+ $(el).position().top // This will be relative to the sectionWrapper
@@ -176,40 +179,62 @@
 					return i;
 				}
 			}
+			return sections.length;
 		}
 
 		// Bind scroll events and perform scrolljacking
 		var bindScroll = function () {
 			$(window).bind(MOUSE_EVENTS_STRING, function(e) {
+				// if (options.mode === "slides") {
+				// 	e.preventDefault();
+				// 	e.stopPropagation();
+				// }
 				var scrollAction = getScrollAction(e);
-				if(options.dynamicHeight) {
-					calculateSectionBottoms();
-				}
+				// if (options.dynamicHeight) {
+				// 	calculateSectionBottoms();
+				// }
+				
 				var windowTop = getWindowTop();
 				var windowBottom = windowTop + $(window).height();
-				// Only affect scrolling if within the sectionWrapper area
+			
+				// Only affect scrolling if touching the sectionWrapper area
 				if (
-					windowTop >= sectionWrapperTop
-					&& windowBottom <= sectionWrapperBottom
+					windowBottom > sectionWrapperTop
+					&& windowTop <= sectionWrapperBottom
 				) {
+					e.preventDefault();
+					e.stopPropagation();
+      				e = e.originalEvent || e;
+					if (scrollAction === "up") {
+						var sectionIndexAtWindowTop = getSectionIndexAt(windowTop);
+						var sectionIndexAtWindowBottom = getSectionIndexAt(windowBottom - 5);
+						if (sectionIndexAtWindowTop === sectionIndexAtWindowBottom) {
+							window.scrollBy(0,(-e.wheelDelta / 4));
+							return;
+						}
+						if (sectionIndexAtWindowBottom > 0) {
+							scrollToPixel(sections[sectionIndexAtWindowBottom - 1] - $(window).height(), options.animationSpeed);
+						}
+					}
+					else if(scrollAction === "down") {
+						var sectionIndexAtWindowTop = getSectionIndexAt(windowTop + 5);
+						var sectionIndexAtWindowBottom = getSectionIndexAt(windowBottom + 1);
+						if (sectionIndexAtWindowTop === sectionIndexAtWindowBottom) {
+							window.scrollBy(0,(-e.wheelDelta / 4));
+							return;
+						}
+						if (sectionIndexAtWindowTop <= sections.length) {
+							scrollToPixel(sections[sectionIndexAtWindowTop], options.animationSpeed);
+						}
+					}
+
+      				else if (scrollAction === false && !isScrolling) {
+						window.scrollBy(0,(-e.wheelDelta / 8));
+						return;
+      				}
 					// Only hijack the scroll when windowTop and windowBottom are touching different slides
 					// `!==` instead of `<` caters for when `getSectionIndexAtWindowBottom` is `undefined`
 					// (at the end of the area)
-					var sectionIndexAtWindowTop = getSectionIndexAt(windowTop);
-					var sectionIndexAtWindowMiddle = getSectionIndexAt(windowTop + ($(window).height() / 2));
-					var sectionIndexAtWindowBottom = getSectionIndexAt(windowBottom);
-					if (sectionIndexAtWindowTop !== sectionIndexAtWindowBottom) {
-						e.preventDefault();
-						e.stopPropagation();
-						if (scrollAction) {
-							if (scrollAction === "up" && sectionIndexAtWindowBottom !== undefined) {
-								scrollToPixel(sections[sectionIndexAtWindowMiddle - 1] - $(window).height(), options.animationSpeed);
-							}
-							else if(scrollAction === "down" && sectionIndexAtWindowTop !== undefined) {
-								scrollToPixel(sections[sectionIndexAtWindowMiddle] + 1, options.animationSpeed);
-							}
-						}
-					}
 				}
 		    });
 		};
@@ -361,7 +386,7 @@
 		initialScroll: true,
 		headerHash: "header",
 		keepHistory: false,
-		mode: "vp", // "vp", "set"
+		mode: "vp", // "vp", "set", "slides"
 		sectionClass: "section",
 		sectionSelector: null,
 		sectionScroll: true,
