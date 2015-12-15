@@ -13,6 +13,7 @@ It also supports:
 3. Compatible with scrollbar - Can use scrollbar as well as mousewheel
 4. Disabling permalink history
 5. Correctly detects scroll events for inertial scrolling, by integrating with [lethargy](https://github.com/d4nyll/lethargy) as a soft dependency (which means it will work without it)
+6. Provides events you can listen to, by integrating with [EventEmitter](https://github.com/Olical/EventEmitter) as a soft dependency
 
 ### [Demo](//d4nyll.github.io/smartscroll/)
 
@@ -73,12 +74,12 @@ Structure your HTML like so (default options included)
 * `breakpoint` - (Integer) The width of the browser below which scrolljacking will be disabled
 * `sectionSelector` - (String) The selector applied to each section, overrides `sectionClass` and allow more flexibility in choosing a selector. (Added in 2.1.0)
 * `dynamicHeight` - (Boolean) If you are going to be dynamically adding and removing content so as to change the position and/or size of the section wrappers and/or sections, then set this to true. Set to false otherwise to increase performance.
-* `eventEmitter` - (Object) If you pass in an eventEmitter object, autoHashing will be much more efficient. You can also listen to the scroll events this way. Defaults to `null`.
+* `eventEmitter` - (Object) If you pass in an [EventEmitter](https://github.com/Olical/EventEmitter) object, autoHashing will be much more efficient. You can also listen to the scroll events this way. Defaults to `null`.
 * `ie8` - If you need to support Internet Explorer 8, change this to `true`. Defaults to `false`.
 
 ### Events
 
-Smartscroll provides two events `scrollStart` and `scrollEnd`. The listener will receive the slide number as its only argument. The first slide will have a number of `1`, the section before the sectionWrapper will have a number of `0`.
+Smartscroll has a soft dependency on [EventEmitter](https://github.com/Olical/EventEmitter). If present, smartscroll can provide two events `scrollStart` and `scrollEnd`. The listener will receive the slide number as its only argument. The first slide will have a number of `1`, the section before the sectionWrapper will have a number of `0`.
 
     var ee = new EventEmitter();
     var scrollStartListener = function (slideNumber) {
