@@ -202,7 +202,11 @@
 						e.stopPropagation();
 						if (scrollAction) {
 							if (scrollAction === "up") {
-								scrollToPixel(sections[sectionIndexAtWindowMiddle - 1] - $(window).height(), options.animationSpeed);
+								if(options.toptotop) {
+									scrollToPixel(sections[sectionIndexAtWindowMiddle - 2] + 1, options.animationSpeed);
+								} else {
+									scrollToPixel(sections[sectionIndexAtWindowMiddle - 1] - $(window).height(), options.animationSpeed);
+								}
 								if(options.eventEmitter) {
 									options.eventEmitter.emitEvent("scrollStart", [sectionIndexAtWindowMiddle - 1]);	
 								}
@@ -375,6 +379,7 @@
 		dynamicHeight: false,
 		ie8: false,
 		hashContinuousUpdate: true,
-		innerSectionScroll: true
+		innerSectionScroll: true,
+		toptotop: false
 	}
 }(jQuery));

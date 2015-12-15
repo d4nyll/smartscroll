@@ -1,6 +1,6 @@
 {
   "name": "smartscroll",
-  "version": "2.1.6",
+  "version": "2.1.7",
   "description": "Scrolljacking jQuery plugin",
   "main": "smartscroll.js",
   "directories": {
