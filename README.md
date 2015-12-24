@@ -1,6 +1,6 @@
 # smartscroll
 
-smartscroll is a tiny (1665b minfied + gzipped) jQuery plugin that has these *independent* features:
+smartscroll is a tiny (1834b minfied + gzipped) jQuery plugin that has these *independent* features:
 
 1. Section scrolling - Scrolljacking
 2. Auto-hash - Updates the URL hash based on current position on page
@@ -77,6 +77,7 @@ Structure your HTML like so (default options included)
 * `eventEmitter` - (Object) If you pass in an [EventEmitter](https://github.com/Olical/EventEmitter) object, autoHashing will be much more efficient. You can also listen to the scroll events this way. Defaults to `null`.
 * `ie8` - If you need to support Internet Explorer 8, change this to `true`. Defaults to `false`.
 * `bindSwipe` - (Boolean) Allow for listening of swipe events. Requires EventEmitter. Defaults to `true`
+* `bindKeyboard` - (Boolean) Allow for keyboard events (up and down arrows) to control slides. Defaults to `true`
 
 ### Events
 

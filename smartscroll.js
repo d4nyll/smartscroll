@@ -146,9 +146,26 @@
 		///FUNCTIONS///
 		///////////////
 		
+		// Check if the view is currently within the section wrapper
+		var sectionWrapperIsVisible = function () {
+			var windowTop = getWindowTop();
+			var windowBottom = windowTop + $(window).height();
+			// Only affect scrolling if within the sectionWrapper area
+			if (
+				windowBottom > sectionWrapperTop
+				&& windowTop <= sectionWrapperBottom
+			) {
+				return true;
+			}
+			return false;
+		}
+
 		// Animates the scroll to the pixel specified
 		// at the speed (milisseconds) specified
 		var scrollToPixel = function (pixel, speed) {
+			if(isScrolling) {
+				return;
+			}
 			isScrolling = true;
 			$('body,html').stop(true,true).animate({
 				scrollTop: pixel
@@ -254,6 +271,9 @@
 				var scrollAction = getScrollAction(e);
 				if(options.dynamicHeight) {
 					calculateSectionBottoms();
+				}
+				if(sectionWrapperIsVisible()) {
+
 				}
 				var windowTop = getWindowTop();
 				var windowBottom = windowTop + $(window).height();
@@ -437,6 +457,53 @@
 			$(window).on('touchstart', handleTouchStart);
 			$(window).on('touchmove', handleTouchMove);
 		}
+		if(options.bindKeyboard) {
+			var handleKeydown = function (e) {
+				e = e.originalEvent || e;
+				if(options.dynamicHeight) {
+					calculateSectionBottoms();
+				}
+				var windowTop = getWindowTop();
+				var windowBottom = windowTop + $(window).height();
+				// Only affect scrolling if within the sectionWrapper area
+				if (sectionWrapperIsVisible()) {
+					// Only hijack the scroll when windowTop and windowBottom are touching different slides
+					// `!==` instead of `<` caters for when `getSectionIndexAtWindowBottom` is `undefined`
+					// (at the end of the area)
+					var sectionIndexAtWindowTop = getSectionIndexAt(windowTop);
+					var sectionIndexAtWindowMiddle = getSectionIndexAt(windowTop + ($(window).height() / 2));
+					var sectionIndexAtWindowBottom = getSectionIndexAt(windowBottom);
+					if (sectionIndexAtWindowTop !== sectionIndexAtWindowBottom
+						|| !options.innerSectionScroll) {
+						e.preventDefault();
+						e.stopPropagation();
+						switch(e.which) {
+							// up arrow
+							case 38:
+								if(options.toptotop) {
+									scrollToPixel(sections[sectionIndexAtWindowMiddle - 2] + 1, options.animationSpeed);
+								} else {
+									scrollToPixel(sections[sectionIndexAtWindowMiddle - 1] - $(window).height(), options.animationSpeed);
+								}
+								if(options.eventEmitter) {
+									options.eventEmitter.emitEvent("scrollStart", [sectionIndexAtWindowMiddle - 1]);	
+								}
+							break;
+							// down arrow
+							case 40:
+								scrollToPixel(sections[sectionIndexAtWindowMiddle] + 1, options.animationSpeed);
+								if(options.eventEmitter) {
+									options.eventEmitter.emitEvent("scrollStart", [sectionIndexAtWindowMiddle + 1]);	
+								}
+							break;
+
+							default: return;
+						}
+					}
+				}
+			}
+			$(window).on('keydown', handleKeydown);
+		}
 		return this;
 	}
 
@@ -459,7 +526,7 @@
 		hashContinuousUpdate: true,
 		innerSectionScroll: true,
 		toptotop: false,
-		bindSwipe: true
+		bindSwipe: true,
+		bindKeyboard: true
 	}
 }(jQuery));
-
