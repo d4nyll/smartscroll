@@ -164,12 +164,20 @@
 		this.scroll = function (down) {
 			if(sections) {
 				var windowTop = getWindowTop();
+				if (options.eventEmitter) {
+					var sectionIndexAtWindowMiddle = getSectionIndexAt(windowTop + ($(window).height() / 2));
+					var nextSlideNumber = down ? (sectionIndexAtWindowMiddle + 1) : (sectionIndexAtWindowMiddle - 1);
+					options.eventEmitter.emitEvent("scrollStart", [nextSlideNumber]);
+				}
 				for (var i = 0; i < sections.length; i++ ) {
 					if (windowTop < sections[i]) {
 						if(!!down) {
 							scrollToPixel(sections[i], 700);
 						} else {
 							scrollToPixel(sections[i - 1] - $(window).height(), 700);
+						}
+						if (options.eventEmitter) {
+							options.eventEmitter.emitEvent("scrollEnd");
 						}
 						return false;
 					}
