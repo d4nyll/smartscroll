@@ -1,6 +1,6 @@
 # smartscroll
 
-smartscroll is a tiny (1473b minfied + gzipped) jQuery plugin that has these *independent* features:
+smartscroll is a tiny (1632b minfied + gzipped) jQuery plugin that has these *independent* features:
 
 1. Section scrolling - Scrolljacking
 2. Auto-hash - Updates the URL hash based on current position on page
@@ -76,10 +76,11 @@ Structure your HTML like so (default options included)
 * `dynamicHeight` - (Boolean) If you are going to be dynamically adding and removing content so as to change the position and/or size of the section wrappers and/or sections, then set this to true. Set to false otherwise to increase performance.
 * `eventEmitter` - (Object) If you pass in an [EventEmitter](https://github.com/Olical/EventEmitter) object, autoHashing will be much more efficient. You can also listen to the scroll events this way. Defaults to `null`.
 * `ie8` - If you need to support Internet Explorer 8, change this to `true`. Defaults to `false`.
+* `bindSwipe` - (Boolean) Allow for listening of swipe events. Requires EventEmitter. Defaults to `true`
 
 ### Events
 
-Smartscroll has a soft dependency on [EventEmitter](https://github.com/Olical/EventEmitter). If present, smartscroll can provide two events `scrollStart` and `scrollEnd`. The listener will receive the slide number as its only argument. The first slide will have a number of `1`, the section before the sectionWrapper will have a number of `0`.
+Smartscroll has a soft dependency on [EventEmitter](https://github.com/Olical/EventEmitter). If present, smartscroll can provide six events `scrollStart`, `scrollEnd`, `swipeLeft`, `swipeRight`, `swipeDown` and `swipeUp`. The `scrollStart` and `scrollEnd` listener will receive the slide number as its only argument; the first slide will have a number of `1`, the section before the sectionWrapper will have a number of `0`.
 
     var ee = new EventEmitter();
     var scrollStartListener = function (slideNumber) {
@@ -94,6 +95,23 @@ Smartscroll has a soft dependency on [EventEmitter](https://github.com/Olical/Ev
       ...
       eventEmitter: ee
     });
+
+The other listeners receive no arguments.
+
+    var ee = new EventEmitter();
+    var swipeUpListener = function () {
+      console.log("Swiping Up");
+    }
+    var swipeDownListener = function () {
+      console.log("Swiping Down");
+    }
+    $.smartscroll({
+      ...
+      eventEmitter: ee,
+      bindSwipe: true
+    });
+    ee.addListener('swipeUp', swipeUpListener);
+    ee.addListener('swipeDown', swipeDownListener);
 
 ### Manual Scroll
 
@@ -130,5 +148,4 @@ Currently, there are two features of smartscroll, and this is how it's implement
 
 The following features may be implemented. Please register interest by opening/commenting on an issue.
 
-* Touch support
 * Horizontal scrolling

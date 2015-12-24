@@ -76,6 +76,52 @@
 			options.eventEmitter = null;
 		}
 
+		if(options.bindSwipe) {
+
+			// Adapted from http://stackoverflow.com/a/23230280/2317532,
+			// licensed under cc by-sa 3.0 with attribution required
+			// http://creativecommons.org/licenses/by-sa/3.0/
+			// (Might want to checkout http://stackoverflow.com/a/17567696/2317532 when time permits)
+			var xDown = null;
+			var yDown = null;
+
+			var handleTouchStart = function (e) {
+				var e = e.originalEvent || e;
+				xDown = e.touches[0].clientX;
+				yDown = e.touches[0].clientY;
+			};
+
+			var handleTouchMove = function (e) {
+				var e = e.originalEvent || e;
+				if ( ! xDown || ! yDown ) {
+					return;
+				}
+
+				var xUp = e.touches[0].clientX;
+				var yUp = e.touches[0].clientY;
+
+				var xDiff = xDown - xUp;
+				var yDiff = yDown - yUp;
+
+				if ( Math.abs( xDiff ) > Math.abs( yDiff ) ) {
+					if ( xDiff > 0 ) {
+						options.eventEmitter.emitEvent("swipeLeft");
+					} else {
+						options.eventEmitter.emitEvent("swipeRight");
+					}
+				} else {
+					if ( yDiff > 0 ) {
+						options.eventEmitter.emitEvent("swipeUp");
+					} else {
+						options.eventEmitter.emitEvent("swipeDown");
+					}
+				}
+				/* reset values */
+				xDown = null;
+				yDown = null;
+			};
+		}
+
 		///////////////////////
 		///RUNTIME VARIABLES///
 		///////////////////////
@@ -167,18 +213,18 @@
 			if(!isScrolling) {
 				if(lethargy) {
 					if(validScroll === 1) {
-			            return "up";
-			        }
-			        else if (validScroll === -1) {
-			        	return "down";
-			        }
+						return "up";
+					}
+					else if (validScroll === -1) {
+						return "down";
+					}
 				} else {
 					if (e.originalEvent.wheelDelta > 0 || e.originalEvent.detail < 0) {
-			            return "up";
-			        }
-			        else if (e.originalEvent.wheelDelta < 0 || e.originalEvent.detail > 0) {
-			        	return "down";
-			        }
+						return "up";
+					}
+					else if (e.originalEvent.wheelDelta < 0 || e.originalEvent.detail > 0) {
+						return "down";
+					}
 				}
 			}
 			return false;
@@ -238,7 +284,7 @@
 						}
 					}
 				}
-		    });
+			});
 		};
 
 		// Remove all functions bound to mouse events
@@ -378,6 +424,11 @@
 			}
 			bindScroll();
 		}
+
+		if(options.bindSwipe) {
+			$(window).on('touchstart', handleTouchStart);
+			$(window).on('touchmove', handleTouchMove);
+		}
 		return this;
 	}
 
@@ -399,6 +450,8 @@
 		ie8: false,
 		hashContinuousUpdate: true,
 		innerSectionScroll: true,
-		toptotop: false
+		toptotop: false,
+		bindSwipe: true
 	}
 }(jQuery));
+

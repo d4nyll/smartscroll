@@ -10,7 +10,7 @@
 <body>
 	<div class="header">
 		<div>
-			<h1>smartscroll - Different Heights &amp; Hybrid Scroll</h1>
+			<h1>smartscroll</h1>
 			<p>A tiny (1632b minfied + gzipped) jQuery plugin for scrolljacking and auto-hashing</p>
 			<p>See it on <a href="https://github.com/d4nyll/smartscroll" target="_blank">GitHub</a>, or see some <a href="http://blog.danyll.com/smartscroll-jquery-scrolljacking-plugin/" target="_blank">comparisons</a></p>
 			<p>Try out other examples!</p>
@@ -31,44 +31,73 @@
 		</div>
 	</div>
 	<div class="section-wrapper">
-		<div class="section" data-hash="a">
+		<div class="section">
 			<div>
-				<p>Normally, your sections will have to be 100% of the viewport for it to work.</p>
+				<h1>Supports Swipe events</h1>
+				<p>Try swiping up, down, left or right on a touch device and see the colour of the coloured box change.</p>
 			</div>
 		</div>
-		<div class="section" data-hash="b">
+		<div class="section">
 			<div>
-				<p>With smartscroll, the section can all be of different heights!</p>
+				<h1>Supports Swipe events</h1>
+				<p>Try swiping up, down, left or right on a touch device and see the colour of the coloured box change.</p>
 			</div>
 		</div>
-		<div class="section" data-hash="c">
+		<div class="section">
 			<div>
-				<p>Just include the option <code>mode: "set"</code>.</p>
+				<h1>Supports Swipe events</h1>
+				<p>Try swiping up, down, left or right on a touch device and see the colour of the coloured box change.</p>
 			</div>
 		</div>
-		<div class="section" data-hash="d">
+		<div class="section">
 			<div>
-				<p>Just include the option <code>mode: "set"</code>.</p>
+				<h1>Supports Swipe events</h1>
+				<p>Try swiping up, down, left or right on a touch device and see the colour of the coloured box change.</p>
+			</div>
+		</div>
+		<div class="section">
+			<div>
+				<h1>Supports Swipe events</h1>
+				<p>Try swiping up, down, left or right on a touch device and see the colour of the coloured box change.</p>
+			</div>
+		</div>
+		<div class="section">
+			<div>
+				<h1>Supports Swipe events</h1>
+				<p>Try swiping up, down, left or right on a touch device and see the colour of the coloured box change.</p>
 			</div>
 		</div>
 	</div>
-	<div class="footer">
-		<div>
-			<p>This section is not inside the section wrapper, so normal scrolling here!</p>
-		</div>
-	</div>
-	<div class="footer">
-		<div>
-			<p>This section is not inside the section wrapper, so normal scrolling here!</p>
-		</div>
-	</div>
+	<div class="swipeIndicator" style="width: 40px; height: 40px; position: fixed; top: 0; left: 0; background-color: salmon;"></div>
 	<script src="https://rawgit.com/Olical/EventEmitter/master/EventEmitter.min.js"></script>
 	<script type="text/javascript" src="../../bower_components/lethargy/lethargy.min.js"></script>
 	<script type="text/javascript" src="../../smartscroll.js"></script>
 	<script>
 		var ee = new EventEmitter();
-		$.smartscroll({
-			mode: "set",
+		var swipeUpListener = function () {
+			console.log("Swiping Up");
+			$(".swipeIndicator").css({backgroundColor: "blue"});
+		}
+		var swipeDownListener = function () {
+			console.log("Swiping Down");
+			$(".swipeIndicator").css({backgroundColor: "gold"});
+		}
+		var swipeLeftListener = function () {
+			console.log("Swiping Left");
+			$(".swipeIndicator").css({backgroundColor: "green"});
+		}
+		var swipeRightListener = function () {
+			console.log("Swiping Right");
+			$(".swipeIndicator").css({backgroundColor: "turquoise"});
+		}
+		ee.addListener('swipeUp', swipeUpListener);
+		ee.addListener('swipeDown', swipeDownListener);
+		ee.addListener('swipeLeft', swipeLeftListener);
+		ee.addListener('swipeRight', swipeRightListener);
+		var smartscroll = $.smartscroll({
+			sectionWrapperSelector: ".section-wrapper",
+			sectionClass: "section",
+			autoHash: false,
 			eventEmitter: ee
 		});
 	</script>
