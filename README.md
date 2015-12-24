@@ -1,6 +1,6 @@
 # smartscroll
 
-smartscroll is a tiny (1420b minfied + gzipped) jQuery plugin that has these *independent* features:
+smartscroll is a tiny (1473b minfied + gzipped) jQuery plugin that has these *independent* features:
 
 1. Section scrolling - Scrolljacking
 2. Auto-hash - Updates the URL hash based on current position on page
@@ -94,6 +94,15 @@ Smartscroll has a soft dependency on [EventEmitter](https://github.com/Olical/Ev
       ...
       eventEmitter: ee
     });
+
+### Manual Scroll
+
+You can manually scroll up or scroll down.
+
+When you first initiate smartscroll with `$.smartscroll()`, it returns an  object. In that object is the `scroll` function, which is called with a single parameter. If the parameter is truthy, it will scroll down, otherwise, it will scroll up.
+
+    var smartscroll = $.smartscroll();
+    smartscroll.scroll(1);
 
 ### Architecture
 

@@ -84,6 +84,7 @@
 		var isScrolling = false;
 
 		var sections = [];
+
 		var sectionWrapperTop;
 		var sectionWrapperBottom;
 
@@ -107,11 +108,28 @@
 				scrollTop: pixel
 			}, speed, function() {
 				isScrolling = false;
-				if(options.eventEmitter) {
+				if (options.eventEmitter) {
 					options.eventEmitter.emitEvent("scrollEnd");
 				}
 			});
 		};
+
+		// Make this public
+		this.scroll = function (down) {
+			if(sections) {
+				var windowTop = getWindowTop();
+				for (var i = 0; i < sections.length; i++ ) {
+					if (windowTop < sections[i]) {
+						if(!!down) {
+							scrollToPixel(sections[i], 700);
+						} else {
+							scrollToPixel(sections[i - 1] - $(window).height(), 700);
+						}
+						return false;
+					}
+				}
+			}
+		}
 
 		// Update the values for `sections`
 		var calculateSectionBottoms = function () {
@@ -360,6 +378,7 @@
 			}
 			bindScroll();
 		}
+		return this;
 	}
 
 	// Set default options
