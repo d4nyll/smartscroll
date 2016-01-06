@@ -475,11 +475,11 @@
 					var sectionIndexAtWindowBottom = getSectionIndexAt(windowBottom);
 					if (sectionIndexAtWindowTop !== sectionIndexAtWindowBottom
 						|| !options.innerSectionScroll) {
-						e.preventDefault();
-						e.stopPropagation();
 						switch(e.which) {
 							// up arrow
 							case 38:
+								e.preventDefault();
+								e.stopPropagation();
 								if(options.toptotop) {
 									scrollToPixel(sections[sectionIndexAtWindowMiddle - 2] + 1, options.animationSpeed);
 								} else {
@@ -491,6 +491,8 @@
 							break;
 							// down arrow
 							case 40:
+								e.preventDefault();
+								e.stopPropagation();
 								scrollToPixel(sections[sectionIndexAtWindowMiddle] + 1, options.animationSpeed);
 								if(options.eventEmitter) {
 									options.eventEmitter.emitEvent("scrollStart", [sectionIndexAtWindowMiddle + 1]);	
