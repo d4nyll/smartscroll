@@ -427,8 +427,8 @@
 			// If the breakpoint option is set
 			if(validBreakPoint) {
 
-				// Run the following whenever the window is resized
-				$(window).bind('resize', function(e){
+				// Run the following whenever the window is loaded or resized
+				$(window).bind('load resize', function(e){
 					// If the window width is below the breakpoint,
 					// Unbind scroll
 					if($(window).width() < options.breakpoint) {
