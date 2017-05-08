@@ -1,0 +1,28 @@
+{
+    "extends": "airbnb-base",
+    "plugins": [
+        "import"
+    ],
+    "parserOptions": {
+      "ecmaVersion": 5
+    },
+    "env": {
+        "browser": true,
+        "jquery": true
+    },
+    "globals": {
+        "Lethargy": true,
+        "EventEmitter": true
+    },
+    "rules": {
+      "func-names": ["warn", "as-needed"],
+      "comma-dangle": ["warn", "always-multiline"],
+      "prefer-arrow-callback": 0,
+      "no-var": 0,
+      "vars-on-top": 0,
+      "no-redeclare": 0,
+      "no-plusplus": 0,
+      "prefer-template": 0,
+      "brace-style": ["warn", "1tbs"]
+    }
+}
