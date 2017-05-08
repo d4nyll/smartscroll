@@ -23,6 +23,6 @@
       "no-redeclare": 0,
       "no-plusplus": 0,
       "prefer-template": 0,
-      "brace-style": ["warn", "stroustrup"]
+      "brace-style": ["warn", "1tbs"]
     }
 }
