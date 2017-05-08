@@ -1,13 +1,13 @@
 (function ($) { // eslint-disable-line func-names
-  // /////////////
-  // /CONSTANTS///
-  // /////////////
+  /**
+   * CONSTANTS
+   */
 
   var MOUSE_EVENTS_STRING = 'mousewheel DOMMouseScroll wheel MozMousePixelScroll';
 
-  // ////////////////
-  // /DEPENDENCIES///
-  // ////////////////
+  /**
+   * DEPENDENCIES
+   */
 
   // Register lethargy as a soft dependency
   var lethargy;
@@ -15,9 +15,9 @@
     lethargy = new Lethargy();
   }
 
-  // /////////////
-  // /FUNCTIONS///
-  // /////////////
+  /**
+   * FUNCTIONS
+   */
 
   var getWindowTop = function () {
     // jQuery uses only window.pageYOffset
@@ -46,9 +46,9 @@
   };
 
   $.smartscroll = function smartscroll(overrides) { // eslint-disable-line no-param-reassign
-    // ///////////
-    // /OPTIONS///
-    // ///////////
+    /**
+     * OPTIONS
+     */
 
     // Replace defaults with user-specified options
     // Properties that are `null` or `undefined` are ignored - https://api.jquery.com/jquery.extend/
@@ -78,14 +78,14 @@
       var xDown = null;
       var yDown = null;
 
-      var handleTouchStart = function (e) {
-        var e = e.originalEvent || e;
+      var handleTouchStart = function (event) {
+        var e = event.originalEvent || event;
         xDown = e.touches[0].clientX;
         yDown = e.touches[0].clientY;
       };
 
-      var handleTouchMove = function (e) {
-        var e = e.originalEvent || e;
+      var handleTouchMove = function (event) {
+        var e = event.originalEvent || event;
         if (!xDown || !yDown) {
           return;
         }
@@ -99,15 +99,12 @@
         if (Math.abs(xDiff) > Math.abs(yDiff)) {
           if (xDiff > 0) {
             options.eventEmitter.emitEvent('swipeLeft');
-          }
-          else {
+          } else {
             options.eventEmitter.emitEvent('swipeRight');
           }
-        }
-        else if (yDiff > 0) {
+        } else if (yDiff > 0) {
           options.eventEmitter.emitEvent('swipeUp');
-        }
-        else {
+        } else {
           options.eventEmitter.emitEvent('swipeDown');
         }
         /* reset values */
@@ -116,9 +113,9 @@
       };
     }
 
-    // /////////////////////
-    // /RUNTIME VARIABLES///
-    // /////////////////////
+    /**
+     * RUNTIME VARIABLES
+     */
 
     // Whether jQuery is currently animating the scroll event
     var isScrolling = false;
@@ -136,9 +133,9 @@
     // Store the current section wrapper method for later use
     var sectionWrapper = $(options.sectionWrapperSelector + ':first');
 
-    // /////////////
-    // /FUNCTIONS///
-    // /////////////
+    /**
+     * FUNCTIONS
+     */
 
     // Check if the view is currently within the section wrapper
     var sectionWrapperIsVisible = function () {
@@ -192,15 +189,12 @@
         if (lethargy) {
           if (validScroll === 1) {
             return 'up';
-          }
-          else if (validScroll === -1) {
+          } else if (validScroll === -1) {
             return 'down';
           }
-        }
-        else if (e.originalEvent.wheelDelta > 0 || e.originalEvent.detail < 0) {
+        } else if (e.originalEvent.wheelDelta > 0 || e.originalEvent.detail < 0) {
           return 'up';
-        }
-        else if (e.originalEvent.wheelDelta < 0 || e.originalEvent.detail > 0) {
+        } else if (e.originalEvent.wheelDelta < 0 || e.originalEvent.detail > 0) {
           return 'down';
         }
       }
@@ -209,7 +203,7 @@
 
     // Checks the slide that is occupying the position specified
     var getSectionIndexAt = function (position) {
-      for (var i = 0; i < sections.length; i++) {
+      for (var i = 0; i < sections.length; i += 1) {
         if (position <= sections[i]) {
           return i;
         }
@@ -222,8 +216,7 @@
       var newHash;
       if ((getWindowTop() + ($(window).height() / 2)) < sectionWrapperTop) {
         newHash = options.headerHash;
-      }
-      else {
+      } else {
         var slideIndex = getSectionIndexAt(getWindowTop() + ($(window).height() / 2));
         if (slideIndex !== undefined) {
           newHash = $(options.sectionSelector + ':nth-of-type(' + (slideIndex + 1) + ')').data('hash');
@@ -235,8 +228,7 @@
         }
         if (!options.keepHistory) {
           window.location.replace(window.location.href.split('#')[0] + '#' + newHash);
-        }
-        else {
+        } else {
           window.location.hash = newHash;
         }
       }
@@ -272,12 +264,11 @@
           );
           options.eventEmitter.emitEvent('scrollStart', [nextSlideNumber]);
         }
-        for (var i = 0; i < sections.length; i++) {
+        for (var i = 0; i < sections.length; i += 1) {
           if (windowTop < sections[i]) {
             if (down) {
               scrollToPixel(sections[i], 700);
-            }
-            else {
+            } else {
               scrollToPixel(sections[i - 1] - $(window).height(), 700);
             }
             if (options.eventEmitter) {
@@ -322,8 +313,7 @@
                     sections[sectionIndexAtWindowMiddle - 2] + 1
                     , options.animationSpeed
                   );
-                }
-                else {
+                } else {
                   scrollToPixel(
                     sections[sectionIndexAtWindowMiddle - 1] - $(window).height()
                     , options.animationSpeed
@@ -332,8 +322,7 @@
                 if (options.eventEmitter) {
                   options.eventEmitter.emitEvent('scrollStart', [sectionIndexAtWindowMiddle - 1]);
                 }
-              }
-              else if (scrollAction === 'down') {
+              } else if (scrollAction === 'down') {
                 scrollToPixel(sections[sectionIndexAtWindowMiddle] + 1, options.animationSpeed);
                 if (options.eventEmitter) {
                   options.eventEmitter.emitEvent('scrollStart', [sectionIndexAtWindowMiddle + 1]);
@@ -350,9 +339,9 @@
       $(window).unbind(MOUSE_EVENTS_STRING);
     };
 
-    // /////////////////
-    // /INITIAL SETUP///
-    // /////////////////
+    /**
+     * INITIAL SETUP
+     */
 
     sectionWrapper.css({
       position: 'relative',
@@ -368,10 +357,9 @@
       if (options.autoHash) {
         if (options.eventEmitter !== null && !options.hashContinuousUpdate) {
           options.eventEmitter.addListener('scrollEnd', autoHash);
-        }
-        // Fallback with binding scroll events.
-        // Many scroll events are fired and so is very resource-intensive
-        else {
+        } else {
+          // Fallback with binding scroll events.
+          // Many scroll events are fired and so is very resource-intensive
           $(window).bind('scroll', autoHash);
         }
       }
@@ -422,9 +410,8 @@
 
         // Run resizeToVP whenever the window resizes
         $(window).bind('resize', resizeToVP);
-      }
-      // Use viewport to avoid binding to resize events
-      else {
+      } else {
+        // Use viewport to avoid binding to resize events
         $(options.sectionSelector).css({
           height: '100vh',
         });
@@ -447,9 +434,8 @@
               belowBreakpoint = true;
               return false;
             }
-          }
-          // If the screen width is currently equal to or above the breakpoint
-          else if (belowBreakpoint) {
+          } else if (belowBreakpoint) {
+            // If the screen width is currently equal to or above the breakpoint
             // Bind scroll only if it's not bound already
             bindScroll();
             belowBreakpoint = false;
@@ -465,8 +451,8 @@
       $(window).on('touchmove', handleTouchMove); // eslint-disable-line block-scoped-var
     }
     if (options.bindKeyboard) {
-      var handleKeydown = function (e) {
-        e = e.originalEvent || e; // eslint-disable-line no-param-reassign
+      var handleKeydown = function (event) {
+        var e = event.originalEvent || event;
         if (options.dynamicHeight) {
           calculateSectionBottoms();
         }
@@ -491,8 +477,7 @@
                   scrollToPixel(
                     sections[sectionIndexAtWindowMiddle - 2] + 1
                     , options.animationSpeed);
-                }
-                else {
+                } else {
                   scrollToPixel(
                     sections[sectionIndexAtWindowMiddle - 1] - $(window).height()
                     , options.animationSpeed);
