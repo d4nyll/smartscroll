@@ -219,7 +219,7 @@
       } else {
         var slideIndex = getSectionIndexAt(getWindowTop() + ($(window).height() / 2));
         if (slideIndex !== undefined) {
-          newHash = $(options.sectionSelector + ':nth-of-type(' + (slideIndex + 1) + ')').data('hash');
+          newHash = $(options.sectionSelector + ':nth-of-type(' + slideIndex + ')').data('hash');
         }
       }
       if (typeof newHash === 'undefined' || !(window.location.hash === ('#' + newHash))) {

@@ -1,6 +1,6 @@
 # smartscroll
 
-smartscroll is a tiny (1838b minfied + gzipped) jQuery plugin that has these *independent* features:
+smartscroll is a tiny (1810b minfied + gzipped) jQuery plugin that has these *independent* features:
 
 1. Section scrolling - Scrolljacking
 2. Auto-hash - Updates the URL hash based on current position on page
@@ -144,9 +144,3 @@ Currently, there are two features of smartscroll, and this is how it's implement
   When the event is fired in `vp` mode, smartscroll will see which section occupies the *top* of the viewport, and if the hash is different, replace it with the new one.
 
   When the event is fired in `set` mode, smartscroll will see which section occupies the *middle* of the viewport, and if the hash is different, replace it with the new one.
-
-### Future Development
-
-The following features may be implemented. Please register interest by opening/commenting on an issue.
-
-* Horizontal scrolling
