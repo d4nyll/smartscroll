@@ -88,8 +88,8 @@
 		var scrollStartListener = function (slideNumber) {
 			console.log("Scrolling to " + slideNumber);
 		}
-		var scrollEndListener = function () {
-			console.log("Scrolling End");
+		var scrollEndListener = function (slideNumber) {
+			console.log("Scrolling End. Now at section " + slideNumber);
 		}
 		ee.addListener('scrollStart', scrollStartListener);
 		ee.addListener('scrollEnd', scrollEndListener);
