@@ -214,11 +214,15 @@
     // Change the hash (and also record history depending on options)
     var autoHash = function () {
       var newHash;
+      // If the middle of the screen is above the top of the section wrapper
+      // Set the hash to the header's hash
       if ((getWindowTop() + ($(window).height() / 2)) < sectionWrapperTop) {
         newHash = options.headerHash;
       } else {
+        // Otherwise, get the index of the section at the middle of the screen
         var slideIndex = getSectionIndexAt(getWindowTop() + ($(window).height() / 2));
         if (slideIndex !== undefined) {
+          // And get the data-hash attribute of the section
           newHash = $(options.sectionSelector + ':nth-of-type(' + slideIndex + ')').data('hash');
         }
       }

@@ -1,6 +1,6 @@
 {
   "name": "smartscroll",
-  "version": "2.5.1",
+  "version": "2.5.2",
   "description": "Scrolljacking jQuery plugin",
   "main": "smartscroll.js",
   "directories": {
@@ -8,10 +8,9 @@
   },
   "scripts": {
     "build": "npm run format && npm run minify",
-    "lint": "./node_modules/.bin/eslint smartscroll.js",
-    "format": "./node_modules/.bin/eslint smartscroll.js --fix",
-    "minify": "./node_modules/.bin/uglifyjs smartscroll.js --output smartscroll.min.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "lint": "eslint smartscroll.js",
+    "format": "eslint smartscroll.js --fix",
+    "minify": "uglifyjs smartscroll.js --ie8 --compress --mangle -o smartscroll.min.js"
   },
   "repository": {
     "type": "git",
@@ -36,6 +35,6 @@
     "eslint-config-airbnb": "^14.1.0",
     "eslint-config-airbnb-base": "^11.1.3",
     "eslint-plugin-import": "^2.2.0",
-    "uglify-js": "^2.8.23"
+    "uglify-js": "^3.2.2"
   }
 }
