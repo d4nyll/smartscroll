@@ -1,4 +1,6 @@
 # smartscroll
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fd4nyll%2Fsmartscroll.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fd4nyll%2Fsmartscroll?ref=badge_shield)
+
 
 smartscroll is a tiny (1820b minfied + gzipped) jQuery plugin that has these *independent* features:
 
@@ -144,3 +146,7 @@ Currently, there are two features of smartscroll, and this is how it's implement
   When the event is fired in `vp` mode, smartscroll will see which section occupies the *top* of the viewport, and if the hash is different, replace it with the new one.
 
   When the event is fired in `set` mode, smartscroll will see which section occupies the *middle* of the viewport, and if the hash is different, replace it with the new one.
+
+
+## License
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fd4nyll%2Fsmartscroll.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fd4nyll%2Fsmartscroll?ref=badge_large)
