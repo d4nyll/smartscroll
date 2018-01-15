@@ -250,7 +250,9 @@
       }, speed, function () { // eslint-disable-line func-names
         isScrolling = false;
         if (options.eventEmitter) {
-          options.eventEmitter.emitEvent('scrollEnd');
+          var windowTop = getWindowTop();
+          var sectionIndexAtWindowMiddle = getSectionIndexAt(windowTop + ($(window).height() / 2));
+          options.eventEmitter.emitEvent('scrollEnd', [sectionIndexAtWindowMiddle]);
         }
       });
     };
@@ -259,8 +261,9 @@
     this.scroll = function scroll(down) {
       if (sections) {
         var windowTop = getWindowTop();
+        var sectionIndexAtWindowMiddle;
         if (options.eventEmitter) {
-          var sectionIndexAtWindowMiddle = getSectionIndexAt(windowTop + ($(window).height() / 2));
+          sectionIndexAtWindowMiddle = getSectionIndexAt(windowTop + ($(window).height() / 2));
           var nextSlideNumber = down ? (
             sectionIndexAtWindowMiddle + 1
           ) : (
@@ -276,7 +279,7 @@
               scrollToPixel(sections[i - 1] - $(window).height(), 700);
             }
             if (options.eventEmitter) {
-              options.eventEmitter.emitEvent('scrollEnd');
+              options.eventEmitter.emitEvent('scrollEnd', [sectionIndexAtWindowMiddle]);
             }
             return false;
           }
@@ -327,11 +330,9 @@
                   options.eventEmitter.emitEvent('scrollStart', [sectionIndexAtWindowMiddle - 1]);
                 }
               } else if (scrollAction === 'down') {
-                if (sections[sectionIndexAtWindowMiddle]) {
-                  scrollToPixel(sections[sectionIndexAtWindowMiddle] + 1, options.animationSpeed);
-                  if (options.eventEmitter) {
-                    options.eventEmitter.emitEvent('scrollStart', [sectionIndexAtWindowMiddle + 1]);
-                  }
+                scrollToPixel(sections[sectionIndexAtWindowMiddle] + 1, options.animationSpeed);
+                if (options.eventEmitter) {
+                  options.eventEmitter.emitEvent('scrollStart', [sectionIndexAtWindowMiddle + 1]);
                 }
               }
             }
