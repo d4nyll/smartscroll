@@ -250,9 +250,7 @@
       }, speed, function () { // eslint-disable-line func-names
         isScrolling = false;
         if (options.eventEmitter) {
-          var windowTop = getWindowTop();
-          var sectionIndexAtWindowMiddle = getSectionIndexAt(windowTop + ($(window).height() / 2));
-          options.eventEmitter.emitEvent('scrollEnd', [sectionIndexAtWindowMiddle]);
+          options.eventEmitter.emitEvent('scrollEnd');
         }
       });
     };
@@ -261,9 +259,8 @@
     this.scroll = function scroll(down) {
       if (sections) {
         var windowTop = getWindowTop();
-        var sectionIndexAtWindowMiddle;
         if (options.eventEmitter) {
-          sectionIndexAtWindowMiddle = getSectionIndexAt(windowTop + ($(window).height() / 2));
+          var sectionIndexAtWindowMiddle = getSectionIndexAt(windowTop + ($(window).height() / 2));
           var nextSlideNumber = down ? (
             sectionIndexAtWindowMiddle + 1
           ) : (
@@ -279,7 +276,7 @@
               scrollToPixel(sections[i - 1] - $(window).height(), 700);
             }
             if (options.eventEmitter) {
-              options.eventEmitter.emitEvent('scrollEnd', [sectionIndexAtWindowMiddle]);
+              options.eventEmitter.emitEvent('scrollEnd');
             }
             return false;
           }
@@ -330,9 +327,11 @@
                   options.eventEmitter.emitEvent('scrollStart', [sectionIndexAtWindowMiddle - 1]);
                 }
               } else if (scrollAction === 'down') {
-                scrollToPixel(sections[sectionIndexAtWindowMiddle] + 1, options.animationSpeed);
-                if (options.eventEmitter) {
-                  options.eventEmitter.emitEvent('scrollStart', [sectionIndexAtWindowMiddle + 1]);
+                if (sections[sectionIndexAtWindowMiddle]) {
+                  scrollToPixel(sections[sectionIndexAtWindowMiddle] + 1, options.animationSpeed);
+                  if (options.eventEmitter) {
+                    options.eventEmitter.emitEvent('scrollStart', [sectionIndexAtWindowMiddle + 1]);
+                  }
                 }
               }
             }
