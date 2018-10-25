@@ -141,7 +141,12 @@
     var sectionWrapperIsVisible = function () {
       var windowTop = getWindowTop();
       var windowBottom = windowTop + $(window).height();
+      var pageHeight = $(document).height();
+
       // Only affect scrolling if within the sectionWrapper area
+      if (windowBottom === pageHeight) {
+        return false;
+      }
       if (
         windowBottom > sectionWrapperTop
         && windowTop <= sectionWrapperBottom
@@ -302,6 +307,7 @@
         if (
           windowBottom > sectionWrapperTop
           && windowTop <= sectionWrapperBottom
+          && sectionWrapperIsVisible()
         ) {
           // Only hijack the scroll when windowTop and windowBottom are touching different slides
           // `!==` instead of `<` caters for when `getSectionIndexAtWindowBottom` is `undefined`
