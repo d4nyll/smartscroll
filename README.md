@@ -2,7 +2,7 @@
 [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fd4nyll%2Fsmartscroll.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fd4nyll%2Fsmartscroll?ref=badge_shield)
 
 
-smartscroll is a tiny (1820b minfied + gzipped) jQuery plugin that has these *independent* features:
+smartscroll is a tiny (1815b minfied + gzipped) jQuery plugin that has these *independent* features:
 
 1. Section scrolling - Scrolljacking
 2. Auto-hash - Updates the URL hash based on current position on page

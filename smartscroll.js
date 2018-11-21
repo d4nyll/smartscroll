@@ -274,9 +274,9 @@
         for (var i = 0; i < sections.length; i += 1) {
           if (windowTop < sections[i]) {
             if (down) {
-              scrollToPixel(sections[i], 700);
+              scrollToPixel(sections[i], options.animationSpeed);
             } else {
-              scrollToPixel(sections[i - 1] - $(window).height(), 700);
+              scrollToPixel(sections[i - 1] - $(window).height(), options.animationSpeed);
             }
             if (options.eventEmitter) {
               options.eventEmitter.emitEvent('scrollEnd', [sectionIndexAtWindowMiddle]);
