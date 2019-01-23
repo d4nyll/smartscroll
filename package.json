@@ -34,7 +34,7 @@
     "eslint": "^5.9.0",
     "eslint-config-airbnb": "^17.1.0",
     "eslint-config-airbnb-base": "^13.1.0",
-    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-import": "^2.15.0",
     "uglify-js": "^3.4.9"
   }
 }
