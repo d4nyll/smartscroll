@@ -330,9 +330,11 @@
                   options.eventEmitter.emitEvent('scrollStart', [sectionIndexAtWindowMiddle - 1]);
                 }
               } else if (scrollAction === 'down') {
-                scrollToPixel(sections[sectionIndexAtWindowMiddle] + 1, options.animationSpeed);
-                if (options.eventEmitter) {
-                  options.eventEmitter.emitEvent('scrollStart', [sectionIndexAtWindowMiddle + 1]);
+                if (sections[sectionIndexAtWindowMiddle]) {
+                  scrollToPixel(sections[sectionIndexAtWindowMiddle] + 1, options.animationSpeed);
+                  if (options.eventEmitter) {
+                    options.eventEmitter.emitEvent('scrollStart', [sectionIndexAtWindowMiddle + 1]);
+                  }
                 }
               }
             }
@@ -497,9 +499,11 @@
               case 40:
                 e.preventDefault();
                 e.stopPropagation();
-                scrollToPixel(sections[sectionIndexAtWindowMiddle] + 1, options.animationSpeed);
-                if (options.eventEmitter) {
-                  options.eventEmitter.emitEvent('scrollStart', [sectionIndexAtWindowMiddle + 1]);
+                if (sections[sectionIndexAtWindowMiddle]) {
+                  scrollToPixel(sections[sectionIndexAtWindowMiddle] + 1, options.animationSpeed);
+                  if (options.eventEmitter) {
+                    options.eventEmitter.emitEvent('scrollStart', [sectionIndexAtWindowMiddle + 1]);
+                  }
                 }
                 break;
 
